@@ -6,7 +6,7 @@
 
 body {
   margin: 0;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #134e4f, #2d7a7b);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -28,7 +28,7 @@ body {
 .auth-form h2 {
   text-align: center;
   margin-bottom: 8px;
-  color: #333;
+  color: #1b5e5f;
 }
 
 .auth-form input {
@@ -41,8 +41,8 @@ body {
 }
 
 .auth-form input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  border-color: #1b5e5f;
+  box-shadow: 0 0 0 3px rgba(27, 94, 95, 0.2);
 }
 
 .auth-form button {
@@ -50,7 +50,7 @@ body {
   padding: 12px;
   border-radius: 8px;
   border: none;
-  background: #667eea;
+  background: #1b5e5f;
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -60,9 +60,9 @@ body {
 }
 
 .auth-form button:hover {
-  background: #5a6fdc;
+  background: #134e4f;
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 20px rgba(27, 94, 95, 0.4);
 }
 
 .auth-form button:active {
@@ -79,7 +79,7 @@ body {
 }
 
 .auth-switch a {
-  color: #667eea;
+  color: #1b5e5f;
   text-decoration: none;
   font-weight: 600;
 }

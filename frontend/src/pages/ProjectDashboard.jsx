@@ -59,7 +59,7 @@ const ProjectDashboard = () => {
                     </div>
                     <button
                         onClick={() => setShowModal(true)}
-                        className="bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-blue-500/30 flex items-center gap-2 transition-all"
+                        className="bg-primary hover:bg-accent text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-primary/30 flex items-center gap-2 transition-all"
                     >
                         <Plus size={20} /> New Project
                     </button>
@@ -84,7 +84,7 @@ const ProjectDashboard = () => {
                                 >
                                     <div className="flex justify-between items-start mb-3">
                                         <div className={`px-3 py-1 rounded-full text-xs font-bold ${project.status === 'Completed' ? 'bg-green-100 text-green-700' :
-                                            project.status === 'In Progress' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
+                                            project.status === 'In Progress' ? 'bg-secondary/20 text-secondary' : 'bg-gray-100 text-gray-700'
                                             }`}>
                                             {project.status}
                                         </div>
@@ -153,7 +153,7 @@ const ProjectDashboard = () => {
                             </div>
                             <div className="flex gap-3 justify-end mt-6">
                                 <button type="button" onClick={() => setShowModal(false)} className="px-5 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</button>
-                                <button type="submit" disabled={creating} className="px-5 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                                <button type="submit" disabled={creating} className="px-5 py-2 bg-primary text-white rounded-lg hover:bg-accent disabled:opacity-50">
                                     {creating ? "Creating..." : "Create Project"}
                                 </button>
                             </div>

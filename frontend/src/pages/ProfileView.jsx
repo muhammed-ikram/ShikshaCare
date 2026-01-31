@@ -30,7 +30,7 @@ const ProfileView = () => {
             <div className="h-screen flex flex-col items-center justify-center p-8 text-center">
                 <h2 className="text-2xl font-bold mb-4">No Profile Found</h2>
                 <p className="text-gray-500 mb-6">You haven't set up your Digital Twin yet.</p>
-                <Link to="/student-profile" className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                <Link to="/student-profile" className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-accent transition">
                     Create Profile
                 </Link>
             </div>
@@ -91,7 +91,7 @@ const ProfileView = () => {
 
                     {/* Learning Style Card */}
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <div className="flex items-center gap-3 mb-4 text-blue-600">
+                        <div className="flex items-center gap-3 mb-4 text-secondary">
                             <Brain className="w-6 h-6" />
                             <h2 className="text-xl font-bold text-gray-800">Learning DNA</h2>
                         </div>
@@ -150,7 +150,7 @@ const ProfileView = () => {
                                 <h3 className="font-semibold text-gray-700 mb-2">Areas of Interest</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {profile.academicBaseline.techInterests?.map(sub => (
-                                        <span key={sub} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-100">{sub}</span>
+                                        <span key={sub} className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium border border-secondary/20">{sub}</span>
                                     ))}
                                 </div>
                             </div>

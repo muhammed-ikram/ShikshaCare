@@ -10,9 +10,10 @@ export default {
         sans: ['Inter', 'sans-serif'],
       },
       colors: {
-        primary: '#2563EB',
-        secondary: '#4F46E5',
-        accent: '#10B981',
+        primary: '#1b5e5f', // Teal from image
+        secondary: '#e89e45', // Orange from image
+        accent: '#2d7a7b', // Lighter Teal
+        dark: '#0f282f', // Dark text
       }
     },
   },

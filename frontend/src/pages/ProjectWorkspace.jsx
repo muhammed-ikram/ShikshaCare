@@ -99,7 +99,7 @@ const ProjectWorkspace = () => {
                     <div>
                         <h1 className="text-xl font-bold text-gray-800">{project.title}</h1>
                         <div className="flex items-center gap-2 text-xs text-gray-500">
-                            <span className={`w-2 h-2 rounded-full ${project.status === 'Completed' ? 'bg-green-500' : 'bg-blue-500'}`}></span>
+                            <span className={`w-2 h-2 rounded-full ${project.status === 'Completed' ? 'bg-green-500' : 'bg-secondary'}`}></span>
                             {project.status}
                         </div>
                     </div>
@@ -118,14 +118,14 @@ const ProjectWorkspace = () => {
                                 setLoading(false);
                             }
                         }}
-                        className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md transition-all"
+                        className="bg-accent hover:bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md transition-all"
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                         AI Plan
                     </button>
                     <button
                         onClick={() => setShowTaskModal(true)}
-                        className="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md"
+                        className="bg-primary hover:bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md"
                     >
                         <Plus size={16} /> Add Task
                     </button>
@@ -183,13 +183,13 @@ const ProjectWorkspace = () => {
                                                                     className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                                                                 />
                                                                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${task.priority === 'High' ? 'bg-red-50 text-red-600 border-red-100' :
-                                                                        task.priority === 'Medium' ? 'bg-yellow-50 text-yellow-600 border-yellow-100' :
-                                                                            'bg-green-50 text-green-600 border-green-100'
+                                                                    task.priority === 'Medium' ? 'bg-yellow-50 text-yellow-600 border-yellow-100' :
+                                                                        'bg-green-50 text-green-600 border-green-100'
                                                                     }`}>
                                                                     {task.priority}
                                                                 </span>
                                                                 {task.module && (
-                                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded border bg-purple-50 text-purple-600 border-purple-100">
+                                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded border bg-secondary/10 text-secondary border-secondary/20">
                                                                         {task.module}
                                                                     </span>
                                                                 )}
@@ -246,7 +246,7 @@ const ProjectWorkspace = () => {
                             </div>
                             <div className="flex gap-2 justify-end mt-4">
                                 <button type="button" onClick={() => setShowTaskModal(false)} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</button>
-                                <button type="submit" className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-blue-700">
+                                <button type="submit" className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-accent">
                                     Add Task
                                 </button>
                             </div>

@@ -35,7 +35,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -104,7 +104,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-black hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-indigo-500/30 flex items-center justify-center gap-2 mt-6"
+            className="w-full bg-primary hover:bg-accent text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-primary/30 flex items-center justify-center gap-2 mt-6"
           >
             {isSubmitting ? <Loader2 className="animate-spin h-5 w-5" /> : "Sign Up"}
           </button>

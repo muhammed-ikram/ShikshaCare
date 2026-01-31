@@ -56,14 +56,14 @@ const RoadmapView = () => {
         <div className="min-h-screen bg-gray-50 p-8">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
-                <div className="bg-white rounded-2xl p-8 shadow-sm mb-8 border border-purple-100">
+                <div className="bg-white rounded-2xl p-8 shadow-sm mb-8 border border-primary/10">
                     <div className="flex justify-between items-start mb-6">
                         <div>
                             <h1 className="text-3xl font-bold text-gray-900 mb-2">{roadmap.domain} Roadmap</h1>
                             <p className="text-gray-500">Your personalized AI-generated learning path.</p>
                         </div>
                         <div className="text-right">
-                            <div className="text-4xl font-bold text-purple-600">{roadmap.overallProgress}%</div>
+                            <div className="text-4xl font-bold text-primary">{roadmap.overallProgress}%</div>
                             <div className="text-sm text-gray-400">Completed</div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ const RoadmapView = () => {
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${roadmap.overallProgress}%` }}
-                            className="bg-gradient-to-r from-purple-500 to-indigo-600 h-full rounded-full"
+                            className="bg-gradient-to-r from-primary to-accent h-full rounded-full"
                         />
                     </div>
                 </div>
@@ -88,8 +88,8 @@ const RoadmapView = () => {
                             <div key={level} className="relative">
                                 <div className="sticky top-4 z-10 bg-gray-50/95 backdrop-blur py-2 mb-4 border-b border-gray-200">
                                     <h2 className={`text-xl font-bold px-4 py-1 rounded-full inline-block ${level === 'Beginner' ? 'text-green-600 bg-green-50' :
-                                            level === 'Intermediate' ? 'text-blue-600 bg-blue-50' :
-                                                'text-purple-600 bg-purple-50'
+                                        level === 'Intermediate' ? 'text-secondary bg-secondary/10' :
+                                            'text-primary bg-primary/10'
                                         }`}>
                                         {level} Level
                                     </h2>
@@ -122,7 +122,7 @@ const RoadmapView = () => {
                                                                 href={res.link}
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 bg-blue-50 p-2 rounded-lg w-fit transition-colors"
+                                                                className="flex items-center gap-2 text-sm text-primary hover:text-accent bg-primary/5 p-2 rounded-lg w-fit transition-colors"
                                                             >
                                                                 <PlayCircle size={16} />
                                                                 {res.title || "Watch Tutorial"}
@@ -134,8 +134,8 @@ const RoadmapView = () => {
                                                 <button
                                                     onClick={() => toggleStep(step._id)}
                                                     className={`ml-4 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${step.isCompleted
-                                                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                                        ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                                         }`}
                                                 >
                                                     {step.isCompleted ? "Completed" : "Mark Done"}

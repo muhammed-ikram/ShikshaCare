@@ -131,7 +131,7 @@ const StudentProfiling = () => {
                         {currentStep < steps.length ? (
                             <button
                                 onClick={handleNext}
-                                className="bg-primary hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium shadow-lg shadow-blue-500/30 flex items-center gap-2 transition-all"
+                                className="bg-primary hover:bg-accent text-black px-8 py-3 rounded-lg font-medium shadow-lg shadow-primary/30 flex items-center gap-2 transition-all"
                             >
                                 Continue <ChevronRight className="w-4 h-4" />
                             </button>
@@ -139,7 +139,7 @@ const StudentProfiling = () => {
                             <button
                                 onClick={handleSubmit}
                                 disabled={isSubmitting}
-                                className="bg-secondary hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-medium shadow-lg shadow-indigo-500/30 flex items-center gap-2 transition-all"
+                                className="bg-secondary hover:bg-orange-600 px-8 py-3 rounded-lg font-medium shadow-lg shadow-secondary/30 flex items-center text-black gap-2 transition-all"
                             >
                                 {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> : "Complete Profile"}
                             </button>

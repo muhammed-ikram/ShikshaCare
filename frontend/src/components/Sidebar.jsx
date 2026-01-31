@@ -17,7 +17,7 @@ const Sidebar = () => {
     return (
         <div className="h-screen w-64 bg-white border-r border-gray-200 flex flex-col fixed left-0 top-0 z-50">
             <div className="p-6 border-b border-gray-100">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold text-{#1b5e5f}">
                     ShikshaCare
                 </h1>
             </div>
@@ -30,8 +30,8 @@ const Sidebar = () => {
                             key={item.path}
                             to={item.path}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${isActive
-                                    ? "bg-primary text-white shadow-md shadow-blue-500/30"
-                                    : "text-gray-600 hover:bg-gray-50 hover:text-primary"
+                                ? "bg-primary text-black shadow-md shadow-blue-500/30"
+                                : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                                 }`}
                         >
                             {item.icon}

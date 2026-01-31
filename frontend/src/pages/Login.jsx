@@ -27,7 +27,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -78,7 +78,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-black hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2"
+            className="w-full bg-primary hover:bg-accent text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-primary/30 flex items-center justify-center gap-2"
           >
             {isSubmitting ? <Loader2 className="animate-spin h-5 w-5" /> : "Sign In"}
           </button>

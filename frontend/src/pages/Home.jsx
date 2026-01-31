@@ -1,9 +1,26 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
+import LearningChart from "../components/dashboard/LearningChart";
+import "./Home.css";
 
 const Home = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [roadmap, setRoadmap] = useState(null);
+
+    useEffect(() => {
+        const fetchRoadmap = async () => {
+            try {
+                const res = await api.get("/api/roadmap");
+                setRoadmap(res.data.roadmap);
+            } catch (error) {
+                console.error("Failed to fetch roadmap", error);
+            }
+        };
+        fetchRoadmap();
+    }, []);
 
     const handleLogout = async () => {
         await logout();
@@ -11,7 +28,7 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
+        <div className="home-container min-h-screen p-8">
             <div className="max-w-5xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex justify-between items-center mb-8">
                     <div>
@@ -49,14 +66,14 @@ const Home = () => {
                             {user?.profileCompleted ? (
                                 <button
                                     onClick={() => navigate("/profile")}
-                                    className="bg-indigo-50 text-indigo-600 px-6 py-2 rounded-lg font-medium hover:bg-indigo-100 transition-colors"
+                                    className="bg-primary/10 text-primary px-6 py-2 rounded-lg font-medium hover:bg-primary/20 transition-colors"
                                 >
                                     View Profile
                                 </button>
                             ) : (
                                 <button
                                     onClick={() => navigate("/student-profile")}
-                                    className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 animate-pulse"
+                                    className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-accent transition-colors shadow-lg shadow-primary/30 animate-pulse"
                                 >
                                     Setup Profile
                                 </button>
@@ -65,10 +82,18 @@ const Home = () => {
                     </div>
 
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <h2 className="text-xl font-semibold mb-4 text-gray-800">Education Module</h2>
-                        <div className="h-32 bg-blue-50 rounded-xl flex items-center justify-center text-blue-400 font-medium">
-                            Coming Soon
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-semibold text-gray-800">Education Module</h2>
+                            {roadmap && <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-bold">{roadmap.overallProgress}% Done</span>}
                         </div>
+                        <LearningChart roadmap={roadmap} />
+                        {!roadmap && (
+                            <div className="text-center mt-4">
+                                <button onClick={() => navigate("/career-results")} className="text-sm text-primary hover:underline">
+                                    Generate Roadmap
+                                </button>
+                            </div>
+                        )}
                     </div>
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                         <h2 className="text-xl font-semibold mb-4 text-gray-800">Health Module</h2>

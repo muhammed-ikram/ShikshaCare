@@ -16,7 +16,7 @@ const LandingPage = () => {
                         </div>
                         <div className="flex items-center space-x-4">
                             <Link to="/login" className="text-gray-600 hover:text-primary font-medium transition-colors">Login</Link>
-                            <Link to="/register" className="bg-black hover:bg-blue-700 text-white px-4 py-2 rounded-full font-medium transition-all shadow-lg shadow-blue-500/30">
+                            <Link to="/register" className="bg-primary hover:bg-accent text-black px-4 py-2 rounded-full font-medium transition-all shadow-lg shadow-primary/30">
                                 Get Started
                             </Link>
                         </div>
@@ -58,8 +58,8 @@ const LandingPage = () => {
 
                 {/* Background Blobs */}
                 <div className="absolute top-0 left-0 -z-10 w-full h-full overflow-hidden">
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-                    <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+                    <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-secondary/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
                 </div>
             </section>
 
@@ -68,7 +68,7 @@ const LandingPage = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <FeatureCard
-                            icon={<BookOpen className="w-8 h-8 text-blue-500" />}
+                            icon={<BookOpen className="w-8 h-8 text-primary" />}
                             title="AI Education"
                             description="Personalized learning paths and AI-driven tutoring for every student."
                         />
