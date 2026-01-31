@@ -5,28 +5,32 @@ mongoose.connect(`mongodb://127.0.0.1:27017/ShikshaCare`);
 const userSchema = mongoose.Schema({
     username: String,
     email: String,
-    password:String,
+    password: String,
     role: {
-        type:String,
-        enum:['user','admin'],
-        default:'user'
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type: Date,
+        default: Date.now
     },
     posts: [
         {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'post'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'post'
         }
     ],
     profilepic: {
-        type:String,
+        type: String,
         default: "default.jpg"
+    },
+    profileCompleted: {
+        type: Boolean,
+        default: false
     }
 });
 
-const userModel = mongoose.model("user",userSchema);
+const userModel = mongoose.model("user", userSchema);
 
 module.exports = userModel;
