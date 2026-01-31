@@ -9,9 +9,9 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
-  const oldUser = await userModel.findOne({email});
-  if(oldUser){
-    return res.json({message:"User already exists"});
+  const oldUser = await userModel.findOne({ email });
+  if (oldUser) {
+    return res.json({ message: "User already exists" });
   }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -21,11 +21,11 @@ router.post('/register', async (req, res) => {
     password: hashedPassword
   });
   const token = jwt.sign(
-    {email,id:user._id},
-     "secretkey"
-    );
-    await user.save();
-    res.cookie('token', token, {
+    { email, id: user._id },
+    "secretkey"
+  );
+  await user.save();
+  res.cookie('token', token, {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000
   });
@@ -33,33 +33,33 @@ router.post('/register', async (req, res) => {
 });
 
 
-router.post('/login',async (req,res)=>{
-    const {email,password} = req.body;
-    const user = await userModel.findOne({email});
-    if(!user){
-        return res.status(400).json({message:"Invalied Credentials"});
-    }
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await userModel.findOne({ email });
+  if (!user) {
+    return res.status(400).json({ message: "Invalied Credentials" });
+  }
 
-    if (user.authProvider === "google") {
-        return res.status(400).json({
-        message: "Please login using Google"
-        });
-    }
-
-    const match = await bcrypt.compare(password,user.password);
-    if(!match){
-        return res.status(400).json({message:"Invalied Credentials"});
-    }
-
-    const token = jwt.sign(
-        {email,id:user._id},
-        "secretkey"
-    );
-    res.cookie("token",token,{
-        httpOnly:true,
-        maxAge: 1000 * 60 * 60 * 24
+  if (user.authProvider === "google") {
+    return res.status(400).json({
+      message: "Please login using Google"
     });
-    res.status(201).json({success:true});
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    return res.status(400).json({ message: "Invalied Credentials" });
+  }
+
+  const token = jwt.sign(
+    { email, id: user._id },
+    "secretkey"
+  );
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24
+  });
+  res.status(201).json({ success: true });
 });
 
 //google login
@@ -87,14 +87,14 @@ router.get(
 );
 
 
-router.post('/logout',(req,res)=>{
-    res.clearCookie("token");
-    res.json({success:true});
+router.post('/logout', (req, res) => {
+  res.clearCookie("token");
+  res.json({ success: true });
 });
 
-router.get('/me',isLoggedIn, async(req,res)=>{
-    const user = await userModel.findById(req.user.id);
-    res.json(user);
+router.get('/me', isLoggedIn, async (req, res) => {
+  const user = await userModel.findById(req.user.id);
+  res.json(user);
 });
 
 module.exports = router;

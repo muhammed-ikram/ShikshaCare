@@ -4,6 +4,11 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import StudentProfiling from "./pages/StudentProfiling";
+import ProfileView from "./pages/ProfileView";
+import CareerResults from "./pages/CareerResults";
+import ProjectDashboard from "./pages/ProjectDashboard";
+import ProjectWorkspace from "./pages/ProjectWorkspace";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -28,6 +33,46 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student-profile"
+            element={
+              <ProtectedRoute>
+                <StudentProfiling />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/career-results"
+            element={
+              <ProtectedRoute>
+                <CareerResults />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfileView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects"
+            element={
+              <ProtectedRoute>
+                <ProjectDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute>
+                <ProjectWorkspace />
               </ProtectedRoute>
             }
           />
