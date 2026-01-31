@@ -1,26 +1,35 @@
 import { useEffect, useState } from "react";
 import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
-import { User, BookOpen, Brain, Activity } from "lucide-react";
+import { User, BookOpen, Brain, Activity, Award } from "lucide-react";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
+
 
 const ProfileView = () => {
     const [profile, setProfile] = useState(null);
+    const [quizStats, setQuizStats] = useState([]);
     const [loading, setLoading] = useState(true);
+
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await api.get("/api/student/profile");
-                setProfile(res.data);
+                const [profileRes, statsRes] = await Promise.all([
+                    api.get("/api/student/profile"),
+                    api.get("/api/quiz/stats")
+                ]);
+                setProfile(profileRes.data);
+                setQuizStats(statsRes.data.stats);
             } catch (error) {
-                console.error("Error fetching profile", error);
+                console.error("Error fetching data", error);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchProfile();
+
     }, []);
 
     if (loading) return <div className="h-screen flex items-center justify-center">Loading Profile...</div>;
@@ -132,7 +141,7 @@ const ProfileView = () => {
                     </div>
 
                     {/* Academic Baseline */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 md:col-span-3">
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 md:col-span-2">
                         <div className="flex items-center gap-3 mb-4 text-orange-600">
                             <BookOpen className="w-6 h-6" />
                             <h2 className="text-xl font-bold text-gray-800">Tech & Interests</h2>
@@ -156,6 +165,40 @@ const ProfileView = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* Quiz Stats Chart */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 md:col-span-1">
+                        <div className="flex items-center gap-3 mb-4 text-primary">
+                            <Award className="w-6 h-6" />
+                            <h2 className="text-xl font-bold text-gray-800">Mastery</h2>
+                        </div>
+                        <div className="h-64">
+                            {quizStats.length > 2 ? (
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={quizStats}>
+                                        <PolarGrid stroke="#e2e8f0" />
+                                        <PolarAngleAxis dataKey="topic" tick={{ fill: '#64748b', fontSize: 10 }} />
+                                        <Radar
+                                            name="Strength"
+                                            dataKey="strength"
+                                            stroke="#6366f1"
+                                            fill="#6366f1"
+                                            fillOpacity={0.6}
+                                        />
+                                        <Tooltip />
+                                    </RadarChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="h-full flex flex-col items-center justify-center text-center p-4">
+                                    <div className="bg-gray-50 p-4 rounded-full mb-3">
+                                        <Activity className="text-gray-300" size={32} />
+                                    </div>
+                                    <p className="text-sm text-gray-400">Complete at least 3 quizzes to see your technical radar.</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
