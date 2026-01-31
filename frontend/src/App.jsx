@@ -11,6 +11,8 @@ import ProjectDashboard from "./pages/ProjectDashboard";
 import ProjectWorkspace from "./pages/ProjectWorkspace";
 import RoadmapView from "./pages/RoadmapView";
 
+import Layout from "./components/Layout";
+
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -18,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!user) return <Navigate to="/login" />;
 
-  return children;
+  return <Layout>{children}</Layout>;
 };
 
 function App() {
