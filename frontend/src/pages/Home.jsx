@@ -3,24 +3,33 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import LearningChart from "../components/dashboard/LearningChart";
+import QuizMasteryChart from "../components/dashboard/QuizMasteryChart";
 import "./Home.css";
+
 
 const Home = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [roadmap, setRoadmap] = useState(null);
+    const [quizStats, setQuizStats] = useState([]);
+
 
     useEffect(() => {
-        const fetchRoadmap = async () => {
+        const fetchData = async () => {
             try {
-                const res = await api.get("/api/roadmap");
-                setRoadmap(res.data.roadmap);
+                const [roadmapRes, statsRes] = await Promise.all([
+                    api.get("/api/roadmap"),
+                    api.get("/api/quiz/stats")
+                ]);
+                setRoadmap(roadmapRes.data.roadmap);
+                setQuizStats(statsRes.data.stats);
             } catch (error) {
-                console.error("Failed to fetch roadmap", error);
+                console.error("Failed to fetch dashboard data", error);
             }
         };
-        fetchRoadmap();
+        fetchData();
     }, []);
+
 
     const handleLogout = async () => {
         await logout();
@@ -96,12 +105,13 @@ const Home = () => {
                         )}
                     </div>
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <h2 className="text-xl font-semibold mb-4 text-gray-800">Health Module</h2>
-                        <div className="h-32 bg-rose-50 rounded-xl flex items-center justify-center text-rose-400 font-medium">
-                            Coming Soon
+                        <h2 className="text-xl font-semibold mb-4 text-gray-800">Quiz Performance</h2>
+                        <div className="h-48">
+                            <QuizMasteryChart quizStats={quizStats} />
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     );
