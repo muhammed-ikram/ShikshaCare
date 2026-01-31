@@ -3,10 +3,15 @@ import api from "../../api";
 
 const Step1Personal = ({ formData, setFormData }) => {
     const [uploading, setUploading] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState(null);
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
+        // Create local preview immediately
+        const objectUrl = URL.createObjectURL(file);
+        setPreviewUrl(objectUrl);
 
         const data = new FormData();
         data.append('profileImage', file);
@@ -16,10 +21,6 @@ const Step1Personal = ({ formData, setFormData }) => {
             const res = await api.post('/api/user/upload-profile-pic', data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            // Assuming successful upload returns filePath
-            // We might want to refresh user context or just show success for now
-            // But we actually need to show the image.
-            // In a real app, we should probably update the AuthContext user
             alert("Profile picture uploaded!");
         } catch (error) {
             console.error("Upload error", error);
@@ -43,10 +44,11 @@ const Step1Personal = ({ formData, setFormData }) => {
             {/* Image Upload Section */}
             <div className="flex items-center gap-4 mb-6">
                 <div className="w-20 h-20 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative">
-                    {/* We can't easily show the image here without the URL from backend updating the context immediately.
-                         For now, let's just use the upload input. Ideal: Context update. 
-                         Let's just show an icon or preview if we had the URL. */}
-                    <span className="text-xs text-center text-gray-500">Upload Photo</span>
+                    {previewUrl ? (
+                        <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                        <span className="text-xs text-center text-gray-500">Upload Photo</span>
+                    )}
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
@@ -68,7 +70,7 @@ const Step1Personal = ({ formData, setFormData }) => {
                         type="number" name="age"
                         value={formData.personalInfo.age} onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                        placeholder="e.g. 15"
+                        placeholder="e.g. 20"
                     />
                 </div>
                 <div className="space-y-2">
@@ -86,21 +88,39 @@ const Step1Personal = ({ formData, setFormData }) => {
                     </select>
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-medium text-gray-700">School Name</label>
+                    <label className="text-sm font-medium text-gray-700">College Name</label>
                     <input
-                        type="text" name="school"
-                        value={formData.personalInfo.school} onChange={handleChange}
+                        type="text" name="collegeName"
+                        value={formData.personalInfo.collegeName} onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                        placeholder="Enter your school name"
+                        placeholder="e.g. IIT Bombay"
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Class/Standard</label>
+                    <label className="text-sm font-medium text-gray-700">Degree</label>
                     <input
-                        type="text" name="classStandard"
-                        value={formData.personalInfo.classStandard} onChange={handleChange}
+                        type="text" name="degree"
+                        value={formData.personalInfo.degree} onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                        placeholder="e.g. 10th Grade"
+                        placeholder="e.g. B.Tech"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Branch</label>
+                    <input
+                        type="text" name="branch"
+                        value={formData.personalInfo.branch} onChange={handleChange}
+                        className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                        placeholder="e.g. CSE"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Year</label>
+                    <input
+                        type="text" name="year"
+                        value={formData.personalInfo.year} onChange={handleChange}
+                        className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                        placeholder="e.g. 2nd Year"
                     />
                 </div>
                 <div className="space-y-2">

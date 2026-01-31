@@ -44,7 +44,7 @@ router.post('/profile', isLoggedIn, async (req, res) => {
 // Get Profile
 router.get('/profile', isLoggedIn, async (req, res) => {
     try {
-        const profile = await StudentProfile.findOne({ user: req.user.id }).populate('user', 'username email');
+        const profile = await StudentProfile.findOne({ user: req.user.id }).populate('user', 'username email profilepic');
         if (!profile) {
             return res.status(404).json({ success: false, message: "Profile not found" });
         }

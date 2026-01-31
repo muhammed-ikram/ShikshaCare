@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -18,14 +18,28 @@ const steps = [
 const StudentProfiling = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
-        personalInfo: { age: "", gender: "", school: "", classStandard: "", city: "" },
-        academicBaseline: { favoriteSubjects: [], difficultSubjects: [], recentGrades: "", studyHoursPerDay: "" },
+        personalInfo: { age: "", gender: "", collegeName: "", degree: "", year: "", branch: "", city: "" },
+        academicBaseline: { programmingLanguages: [], techInterests: [], cgpa: "", codingHoursPerDay: "" },
         learningStyle: { primaryStyle: "", attentionSpan: "", groupStudyPreference: false },
         digitalTwinAttributes: { curiosityLevel: 5, adaptability: 5, stressLevel: 5 }
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { logout } = useAuth(); // In case they want to logout
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const res = await api.get("/api/student/profile");
+                if (res.data) {
+                    setFormData(prev => ({ ...prev, ...res.data }));
+                }
+            } catch (error) {
+                // Ignore 404
+            }
+        };
+        fetchProfile();
+    }, []);
 
     const handleNext = () => {
         if (currentStep < steps.length) setCurrentStep(prev => prev + 1);
@@ -62,8 +76,8 @@ const StudentProfiling = () => {
                         {steps.map((step) => (
                             <div key={step.id} className="flex items-start gap-4">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-colors ${currentStep >= step.id
-                                        ? "border-primary bg-primary/10 text-primary"
-                                        : "border-gray-200 text-gray-300"
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-gray-200 text-gray-300"
                                     }`}>
                                     {currentStep > step.id ? <CheckCircle className="w-5 h-5" /> : step.id}
                                 </div>

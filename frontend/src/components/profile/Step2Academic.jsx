@@ -17,42 +17,42 @@ const Step2Academic = ({ formData, setFormData }) => {
 
     return (
         <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">Academic Baseline</h2>
+            <h2 className="text-2xl font-bold text-gray-800">Academic & Tech</h2>
             <div className="space-y-4">
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Recent Grades / GPA</label>
+                    <label className="text-sm font-medium text-gray-700">Current CGPA</label>
                     <input
-                        type="text" name="recentGrades"
-                        value={formData.academicBaseline.recentGrades} onChange={handleChange}
+                        type="text" name="cgpa"
+                        value={formData.academicBaseline.cgpa} onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                        placeholder="e.g. 85%, A Grade, 3.8 GPA"
+                        placeholder="e.g. 8.5"
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Favorite Subjects (comma separated)</label>
+                    <label className="text-sm font-medium text-gray-700">Programming Languages (comma separated)</label>
                     <input
                         type="text"
-                        value={formData.academicBaseline.favoriteSubjects?.join(', ')}
-                        onChange={(e) => handleArrayChange(e, 'favoriteSubjects')}
+                        value={formData.academicBaseline.programmingLanguages?.join(', ')}
+                        onChange={(e) => handleArrayChange(e, 'programmingLanguages')}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                        placeholder="Math, Physics, History"
+                        placeholder="Java, C, Python, JavaScript"
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Difficult Subjects (comma separated)</label>
+                    <label className="text-sm font-medium text-gray-700">Areas of Interest (comma separated)</label>
                     <input
                         type="text"
-                        value={formData.academicBaseline.difficultSubjects?.join(', ')}
-                        onChange={(e) => handleArrayChange(e, 'difficultSubjects')}
+                        value={formData.academicBaseline.techInterests?.join(', ')}
+                        onChange={(e) => handleArrayChange(e, 'techInterests')}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                        placeholder="Chemistry, Biology"
+                        placeholder="Web Development, AI, Machine Learning"
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Study Hours Per Day</label>
+                    <label className="text-sm font-medium text-gray-700">Coding Hours Per Day</label>
                     <input
-                        type="number" name="studyHoursPerDay"
-                        value={formData.academicBaseline.studyHoursPerDay} onChange={handleChange}
+                        type="number" name="codingHoursPerDay"
+                        value={formData.academicBaseline.codingHoursPerDay} onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
                         placeholder="e.g. 2, 4"
                     />

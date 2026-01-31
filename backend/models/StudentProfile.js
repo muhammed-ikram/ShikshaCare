@@ -10,15 +10,17 @@ const studentProfileSchema = mongoose.Schema({
     personalInfo: {
         age: { type: Number },
         gender: { type: String, enum: ['Male', 'Female', 'Other', 'Prefer not to say'] },
-        school: { type: String },
-        classStandard: { type: String }, // e.g., "10th Grade"
+        collegeName: { type: String },
+        degree: { type: String }, // e.g. B.Tech, B.E
+        year: { type: String }, // e.g. 1st Year, 2nd Year
+        branch: { type: String }, // e.g. CSE, ECE
         city: { type: String }
     },
     academicBaseline: {
-        favoriteSubjects: [{ type: String }],
-        difficultSubjects: [{ type: String }],
-        recentGrades: { type: String }, // e.g., "A", "85%", "GPA 3.5"
-        studyHoursPerDay: { type: Number }
+        programmingLanguages: [{ type: String }], // Java, C, Python
+        techInterests: [{ type: String }], // AI/ML, Web Dev
+        cgpa: { type: String }, // e.g., "8.5"
+        codingHoursPerDay: { type: Number }
     },
     learningStyle: {
         primaryStyle: { type: String, enum: ['Visual', 'Auditory', 'Kinesthetic', 'Reading/Writing'] },

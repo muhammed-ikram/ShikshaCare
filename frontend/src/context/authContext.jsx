@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     await axios.post("http://localhost:3000/auth/register", { username, email, password }, {
       headers: { "Content-Type": "application/json" }
     });
+    await checkUser(); // Update user state immediately after registration
   };
 
   const logout = async () => {
