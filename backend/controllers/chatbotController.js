@@ -16,8 +16,6 @@ Guidelines:
     *   "I'm really concerned about you. Please reach out to a professional or a trusted adult immediately."
     *   Include generic helpline suggestions like "You can call 988 or your local emergency number."
 6.  **Structure**: Keep responses concise and easy to read.
-
-Input: 
 `;
 
 exports.analyzeMood = async (req, res) => {
@@ -28,15 +26,68 @@ exports.analyzeMood = async (req, res) => {
             return res.status(400).json({ error: "Message is required" });
         }
 
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-        const result = await model.generateContent(mentalHealthPrompt + message);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+        const result = await model.generateContent(mentalHealthPrompt + "\nUser Input: " + message);
         const response = await result.response;
         const text = response.text();
 
         res.json({ reply: text });
     } catch (error) {
         console.error("Error with Gemini API:", error);
+
+        if (error.status === 429 || error.message?.includes('429')) {
+            return res.status(429).json({
+                error: "I'm receiving too many messages right now. Please wait a moment and try again."
+            });
+        }
+
+        res.status(500).json({ error: "Failed to process your request." });
+    }
+};
+
+const roadmapPrompt = `
+You are an expert tutor and career mentor specializing in {domain}.
+The student is currently at the **{level}** level.
+
+Your Goal:
+1. Answer the student's specific question about this level.
+2. Provide clear, concise explanations suitable for a {level} learner.
+3. Suggest 1-2 actionable resources or practice ideas if asked.
+4. Be encouraging and professional.
+
+Context:
+- Domain: {domain}
+- Level: {level}
+`;
+
+exports.analyzeRoadmapQuery = async (req, res) => {
+    try {
+        const { message, domain, level } = req.body;
+
+        if (!message || !domain || !level) {
+            return res.status(400).json({ error: "Message, Domain, and Level are required" });
+        }
+
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+        const filledPrompt = roadmapPrompt
+            .replace(/{domain}/g, domain)
+            .replace(/{level}/g, level);
+
+        const result = await model.generateContent(filledPrompt + "\nStudent Question: " + message);
+        const response = await result.response;
+        const text = response.text();
+
+        res.json({ reply: text });
+    } catch (error) {
+        console.error("Error with Gemini API (Roadmap):", error);
+        if (error.status === 429 || error.message?.includes('429')) {
+            return res.status(429).json({
+                error: "I'm receiving too many messages right now. Please wait a moment and try again."
+            });
+        }
         res.status(500).json({ error: "Failed to process your request." });
     }
 };
