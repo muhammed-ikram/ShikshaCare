@@ -7,7 +7,7 @@ const isLoggedIn = require('../middlewares/isLoggedIn');
 // Create or Update Profile
 router.post('/profile', isLoggedIn, async (req, res) => {
     try {
-        const { personalInfo, academicBaseline, learningStyle, digitalTwinAttributes } = req.body;
+        const { personalInfo, academicBaseline, learningStyle, digitalTwinAttributes, careerAspirations } = req.body;
 
         // Check if profile exists
         let profile = await StudentProfile.findOne({ user: req.user.id });
@@ -18,6 +18,7 @@ router.post('/profile', isLoggedIn, async (req, res) => {
             profile.academicBaseline = academicBaseline;
             profile.learningStyle = learningStyle;
             profile.digitalTwinAttributes = digitalTwinAttributes;
+            profile.careerAspirations = careerAspirations;
             await profile.save();
         } else {
             // Create new
@@ -26,7 +27,8 @@ router.post('/profile', isLoggedIn, async (req, res) => {
                 personalInfo,
                 academicBaseline,
                 learningStyle,
-                digitalTwinAttributes
+                digitalTwinAttributes,
+                careerAspirations
             });
             await profile.save();
 

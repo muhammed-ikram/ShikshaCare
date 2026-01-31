@@ -32,6 +32,11 @@ const studentProfileSchema = mongoose.Schema({
         adaptability: { type: Number, min: 1, max: 10, default: 5 },
         stressLevel: { type: Number, min: 1, max: 10, default: 5 }
     },
+    careerAspirations: {
+        interests: [{ type: String }], // e.g. "Web Development", "Data Science"
+        preferredWorkEnvironment: { type: String, enum: ['Remote', 'On-site', 'Hybrid'] },
+        expectedSalaryRange: { type: String } // e.g. "5-8 LPA"
+    },
     createdAt: {
         type: Date,
         default: Date.now

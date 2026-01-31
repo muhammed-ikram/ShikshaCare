@@ -8,11 +8,13 @@ import { CheckCircle, ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
 import Step1Personal from "../components/profile/Step1Personal";
 import Step2Academic from "../components/profile/Step2Academic";
 import Step3Learning from "../components/profile/Step3Learning";
+import Step4Career from "../components/profile/Step4Career";
 
 const steps = [
     { id: 1, title: "Personal Info", description: "Let's get to know you" },
     { id: 2, title: "Academic Base", description: "Your current standing" },
-    { id: 3, title: "Learning Style", description: "How you learn best" }
+    { id: 3, title: "Learning Style", description: "How you learn best" },
+    { id: 4, title: "Career Goals", description: "Future aspirations" }
 ];
 
 const StudentProfiling = () => {
@@ -21,7 +23,8 @@ const StudentProfiling = () => {
         personalInfo: { age: "", gender: "", collegeName: "", degree: "", year: "", branch: "", city: "" },
         academicBaseline: { programmingLanguages: [], techInterests: [], cgpa: "", codingHoursPerDay: "" },
         learningStyle: { primaryStyle: "", attentionSpan: "", groupStudyPreference: false },
-        digitalTwinAttributes: { curiosityLevel: 5, adaptability: 5, stressLevel: 5 }
+        digitalTwinAttributes: { curiosityLevel: 5, adaptability: 5, stressLevel: 5 },
+        careerAspirations: { interests: [], preferredWorkEnvironment: "", expectedSalaryRange: "" }
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { logout } = useAuth(); // In case they want to logout
@@ -53,7 +56,7 @@ const StudentProfiling = () => {
         setIsSubmitting(true);
         try {
             await api.post("/api/student/profile", formData);
-            navigate("/home"); // Redirect to dashboard on success
+            navigate("/career-results"); // Redirect to results on success
         } catch (error) {
             console.error("Failed to save profile", error);
             alert("Something went wrong. Please try again.");
@@ -111,6 +114,7 @@ const StudentProfiling = () => {
                             {currentStep === 1 && <Step1Personal formData={formData} setFormData={setFormData} />}
                             {currentStep === 2 && <Step2Academic formData={formData} setFormData={setFormData} />}
                             {currentStep === 3 && <Step3Learning formData={formData} setFormData={setFormData} />}
+                            {currentStep === 4 && <Step4Career formData={formData} setFormData={setFormData} />}
                         </motion.div>
                     </AnimatePresence>
 
