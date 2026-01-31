@@ -19,7 +19,7 @@ const StudentProfiling = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
         personalInfo: { age: "", gender: "", collegeName: "", degree: "", year: "", branch: "", city: "" },
-        academicBaseline: { programmingLanguages: [], techInterests: [], cgpa: "", codingHoursPerDay: "" },
+        academicBaseline: { skills: [], interests: [], cgpa: "", studyHoursPerDay: "" },
         learningStyle: { primaryStyle: "", attentionSpan: "", groupStudyPreference: false },
         digitalTwinAttributes: { curiosityLevel: 5, adaptability: 5, stressLevel: 5 }
     });

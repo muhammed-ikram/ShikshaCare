@@ -3,7 +3,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
 
-const JWT_SECRET = "secretkey";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 passport.use(
   new GoogleStrategy(

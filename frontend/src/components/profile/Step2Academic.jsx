@@ -20,39 +20,39 @@ const Step2Academic = ({ formData, setFormData }) => {
             <h2 className="text-2xl font-bold text-gray-800">Academic & Tech</h2>
             <div className="space-y-4">
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Current CGPA</label>
+                    <label className="text-sm font-medium text-gray-700">Current CGPA / Grade</label>
                     <input
                         type="text" name="cgpa"
                         value={formData.academicBaseline.cgpa} onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                        placeholder="e.g. 8.5"
+                        placeholder="e.g. 8.5 or A"
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Programming Languages (comma separated)</label>
+                    <label className="text-sm font-medium text-gray-700">Key Skills (Tools & Soft Skills)</label>
                     <input
                         type="text"
-                        value={formData.academicBaseline.programmingLanguages?.join(', ')}
-                        onChange={(e) => handleArrayChange(e, 'programmingLanguages')}
+                        value={formData.academicBaseline.skills?.join(', ')}
+                        onChange={(e) => handleArrayChange(e, 'skills')}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                        placeholder="Java, C, Python, JavaScript"
+                        placeholder="Communication, Python, Research, Design..."
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Areas of Interest (comma separated)</label>
+                    <label className="text-sm font-medium text-gray-700">Areas of Interest</label>
                     <input
                         type="text"
-                        value={formData.academicBaseline.techInterests?.join(', ')}
-                        onChange={(e) => handleArrayChange(e, 'techInterests')}
+                        value={formData.academicBaseline.interests?.join(', ')}
+                        onChange={(e) => handleArrayChange(e, 'interests')}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                        placeholder="Web Development, AI, Machine Learning"
+                        placeholder="Psychology, Artificial Intelligence, History..."
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Coding Hours Per Day</label>
+                    <label className="text-sm font-medium text-gray-700">Study Hours Per Day</label>
                     <input
-                        type="number" name="codingHoursPerDay"
-                        value={formData.academicBaseline.codingHoursPerDay} onChange={handleChange}
+                        type="number" name="studyHoursPerDay"
+                        value={formData.academicBaseline.studyHoursPerDay} onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
                         placeholder="e.g. 2, 4"
                     />

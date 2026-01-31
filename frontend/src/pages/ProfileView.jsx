@@ -44,7 +44,7 @@ const ProfileView = () => {
                     <h1 className="text-3xl font-bold text-gray-800">My Digital Twin</h1>
                     <div className="flex gap-4">
                         <button
-                            onClick={() => navigate("/student-profile")}
+                            onClick={() => navigate("/student-profiling")}
                             className="text-primary border border-primary px-4 py-2 rounded-lg hover:bg-primary/5 font-medium"
                         >
                             Edit Profile

@@ -6,6 +6,9 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import StudentProfiling from "./pages/StudentProfiling";
 import ProfileView from "./pages/ProfileView";
+import CareerSimulation from "./pages/CareerSimulation";
+import RoadmapView from "./pages/RoadmapView";
+import Layout from "./components/Layout";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -25,30 +28,15 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/student-profile"
-            element={
-              <ProtectedRoute>
-                <StudentProfiling />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfileView />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/student-profiling" element={<ProtectedRoute><StudentProfiling /></ProtectedRoute>} />
+
+          {/* Protected Routes with Sidebar Layout */}
+          <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/student-profile" element={<ProfileView />} />
+            <Route path="/career-simulation" element={<CareerSimulation />} />
+            <Route path="/roadmap" element={<RoadmapView />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

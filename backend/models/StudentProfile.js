@@ -17,10 +17,10 @@ const studentProfileSchema = mongoose.Schema({
         city: { type: String }
     },
     academicBaseline: {
-        programmingLanguages: [{ type: String }], // Java, C, Python
-        techInterests: [{ type: String }], // AI/ML, Web Dev
+        skills: [{ type: String }], // e.g. Communication, Java, Design
+        interests: [{ type: String }], // e.g. Psychology, AI, History
         cgpa: { type: String }, // e.g., "8.5"
-        codingHoursPerDay: { type: Number }
+        studyHoursPerDay: { type: Number }
     },
     learningStyle: {
         primaryStyle: { type: String, enum: ['Visual', 'Auditory', 'Kinesthetic', 'Reading/Writing'] },

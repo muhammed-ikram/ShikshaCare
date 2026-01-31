@@ -11,9 +11,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const checkUser = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/auth/me", {
+      const res = await axios.get(`${API_URL}/auth/me`, {
         withCredentials: true
       });
       setUser(res.data);
@@ -25,21 +27,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    await axios.post("http://localhost:3000/auth/login", { email, password }, {
+    await axios.post(`${API_URL}/auth/login`, { email, password }, {
       withCredentials: true
     });
     await checkUser();
   };
 
   const register = async (username, email, password) => {
-    await axios.post("http://localhost:3000/auth/register", { username, email, password }, {
+    await axios.post(`${API_URL}/auth/register`, { username, email, password }, {
       headers: { "Content-Type": "application/json" }
     });
     await checkUser(); // Update user state immediately after registration
   };
 
   const logout = async () => {
-    await axios.post("http://localhost:3000/auth/logout", {}, {
+    await axios.post(`${API_URL}/auth/logout`, {}, {
       withCredentials: true
     });
     setUser(null);

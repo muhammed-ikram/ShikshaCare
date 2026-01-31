@@ -20,7 +20,7 @@ const Home = () => {
                     </div>
                     <div className="flex items-center gap-4">
                         <button
-                            onClick={() => navigate("/profile")}
+                            onClick={() => navigate("/student-profile")}
                             className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
                         >
                             <span className="hidden md:inline">Profile</span>
@@ -48,7 +48,7 @@ const Home = () => {
                             </div>
                             {user?.profileCompleted ? (
                                 <button
-                                    onClick={() => navigate("/profile")}
+                                    onClick={() => navigate("/student-profile")}
                                     className="bg-indigo-50 text-indigo-600 px-6 py-2 rounded-lg font-medium hover:bg-indigo-100 transition-colors"
                                 >
                                     View Profile

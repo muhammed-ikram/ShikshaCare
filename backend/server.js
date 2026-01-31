@@ -7,6 +7,10 @@ const mongoose = require('mongoose');
 const passport = require("passport");
 require("./config/passport");
 const authRoutes = require('./routes/authRoutes');
+const connectDB = require('./config/db');
+
+connectDB();
+
 // const userRoutes = require('./routes/userRoutes');
 // const postRoutes = require('./routes/postRoutes');
 // const commentRoutes = require('./routes/commentRoutes');
@@ -26,6 +30,7 @@ app.use(passport.initialize());
 app.use("/auth", authRoutes);
 app.use("/api/student", require('./routes/studentRoutes'));
 app.use("/api/user", require('./routes/userRoutes'));
+app.use("/api/career", require('./routes/careerRoutes'));
 app.use('/uploads', express.static('uploads'));
 
 
