@@ -65,4 +65,41 @@ router.put('/step/:stepId', isLoggedIn, async (req, res) => {
     }
 });
 
+// Start a Module
+router.put('/step/:stepId/start', isLoggedIn, async (req, res) => {
+    try {
+        const roadmap = await Roadmap.findOne({ student: req.user.id });
+        if (!roadmap) return res.status(404).json({ message: "Roadmap not found" });
+
+        const step = roadmap.steps.id(req.params.stepId);
+        if (!step) return res.status(404).json({ message: "Step not found" });
+
+        step.isStarted = true; // Once started, it stays started usually
+        await roadmap.save();
+        res.json({ success: true, roadmap });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+// Toggle Sub-Module Completion
+router.put('/step/:stepId/submodule/:subId', isLoggedIn, async (req, res) => {
+    try {
+        const roadmap = await Roadmap.findOne({ student: req.user.id });
+        if (!roadmap) return res.status(404).json({ message: "Roadmap not found" });
+
+        const step = roadmap.steps.id(req.params.stepId);
+        if (!step) return res.status(404).json({ message: "Step not found" });
+
+        const sub = step.subModules.id(req.params.subId);
+        if (!sub) return res.status(404).json({ message: "Sub-module not found" });
+
+        sub.isCompleted = !sub.isCompleted;
+        await roadmap.save();
+        res.json({ success: true, roadmap });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 module.exports = router;

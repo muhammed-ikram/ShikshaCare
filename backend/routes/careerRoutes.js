@@ -43,6 +43,8 @@ router.post('/seed', async (req, res) => {
     }
 });
 
+const { suggestCareers } = require('../services/aiService');
+
 // Analyze Profile and Suggest Careers
 router.post('/analyze', isLoggedIn, async (req, res) => {
     try {
@@ -51,53 +53,12 @@ router.post('/analyze', isLoggedIn, async (req, res) => {
             return res.status(404).json({ success: false, message: "Profile not found. Please complete onboarding first." });
         }
 
-        // Simple Heuristic Logic for Recommendations
-        const allPaths = await CareerPath.find();
-        const recommendations = allPaths.map(path => {
-            let score = 0;
-            const reasons = [];
-
-            // 1. Skill Match from 'Academic Baseline' (if implemented strictly, but here we use interests)
-            // Assuming academicBaseline.techInterests contains broadly related terms
-            const userInterests = [...profile.academicBaseline.programmingLanguages, ...profile.academicBaseline.techInterests];
-
-            // Check for skill overlaps
-            const commonSkills = path.requiredSkills.filter(skill =>
-                userInterests.some(interest => interest.toLowerCase().includes(skill.toLowerCase()))
-            );
-            if (commonSkills.length > 0) {
-                score += commonSkills.length * 10;
-                reasons.push(`Matches skills: ${commonSkills.join(', ')}`);
-            }
-
-            // 2. Trait Match
-            if (path.matchCriteria.keyTraits.includes(profile.learningStyle.primaryStyle)) {
-                score += 5;
-                reasons.push(`Alignment with ${profile.learningStyle.primaryStyle} learning style`);
-            }
-
-            // 3. Coding Hours
-            if (profile.academicBaseline.codingHoursPerDay >= path.matchCriteria.minCodingHours) {
-                score += 5;
-                reasons.push("Sufficient daily coding practice");
-            }
-
-            return {
-                ...path.toObject(),
-                matchScore: score,
-                matchReasons: reasons
-            };
-        });
-
-        // Sort by score
-        recommendations.sort((a, b) => b.matchScore - a.matchScore);
-
-        // Return top 3
-        res.json({ success: true, recommendations: recommendations.slice(0, 3) });
+        const recommendations = await suggestCareers(profile);
+        res.json({ success: true, recommendations });
 
     } catch (error) {
         console.error("Analysis error:", error);
-        res.status(500).json({ success: false, message: "Server Error" });
+        res.status(500).json({ success: false, message: "AI Analysis Failed. Please try again." });
     }
 });
 

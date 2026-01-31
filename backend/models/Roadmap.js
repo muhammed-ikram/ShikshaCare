@@ -27,7 +27,21 @@ const roadmapSchema = new mongoose.Schema({
             link: String,
             type: { type: String, default: 'Video' }
         }],
+        subModules: [{
+            title: { type: String, required: true },
+            description: String,
+            resources: [{
+                title: String,
+                link: String,
+                type: { type: String, default: 'Article' }
+            }],
+            isCompleted: { type: Boolean, default: false }
+        }],
         isCompleted: {
+            type: Boolean,
+            default: false
+        },
+        isStarted: {
             type: Boolean,
             default: false
         }

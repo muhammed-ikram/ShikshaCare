@@ -73,17 +73,29 @@ const generateTasks = async (project) => {
 const generateRoadmap = async (domain) => {
     try {
         const prompt = `
-      You are a career coach. Create a step-by-step learning roadmap for: ${domain}.
+      You are an expert technical curriculum lead. Create a DEEP-DIVE technical learning roadmap for: ${domain}.
       Divide into 3 levels: Beginner, Intermediate, Advanced.
-      For each step, provide a topic, brief description, and ONE free YouTube resource link (real or search query format).
       
-      Return ONLY a JSON array of objects with this structure:
+      CRITICAL INSTRUCTIONS:
+      - Use INDUSTRY-STANDARD technical terms (e.g., instead of "Web Basics", use "Semantic HTML5, CSS Grid/Flexbox, and ES6+ Fundamentals").
+      - For each main module, you MUST break it down into 4-6 granular, real-world technical sub-topics (subModules).
+      - Sub-modules should represent actual implementation concepts (e.g., "State Synchronization", "JWT Authentication flow", "Database Indexing Strategies").
+      - Provide a specific YouTube tutorial link for each MAIN module.
+
+      Return ONLY a JSON array of objects with this structure (no markdown):
       [
         { 
           "level": "Beginner", 
-          "title": "Topic Title", 
-          "description": "What to learn", 
-          "resources": [{ "title": "Resource Name", "link": "https://youtube.com/results?search_query=topic" }] 
+          "title": "Precise Technical Module Title", 
+          "description": "Professional overview of the core competency", 
+          "resources": [{ "title": "Main Tutorial", "link": "https://youtube.com/..." }],
+          "subModules": [
+             {
+               "title": "Granular Technical Topic", 
+               "description": "Technical depth and real-world usage",
+               "resources": [{ "title": "In-depth Guide", "link": "..." }]
+             }
+          ]
         }
       ]
     `;
@@ -101,38 +113,115 @@ const generateRoadmap = async (domain) => {
     } catch (error) {
         console.error("OpenAI Error (Roadmap):", error);
 
-        // Smart Fallback
         const isWeb = domain.toLowerCase().includes('web') || domain.toLowerCase().includes('stack');
         const isData = domain.toLowerCase().includes('data') || domain.toLowerCase().includes('ai');
 
-        const steps = [];
-
-        // Beginner
-        steps.push({
-            level: 'Beginner',
-            title: isWeb ? 'HTML/CSS/JS Basics' : isData ? 'Python Basics' : 'Core Fundamentals',
-            description: 'Master the building blocks of the language and environment.',
-            resources: [{ title: 'Crash Course', link: 'https://www.youtube.com/results?search_query=crash+course+' + domain }]
-        });
-
-        // Intermediate
-        steps.push({
-            level: 'Intermediate',
-            title: isWeb ? 'Frontend Frameworks (React)' : isData ? 'Pandas & NumPy' : 'Intermediate Concepts',
-            description: 'Learn standard libraries and frameworks used in industry.',
-            resources: [{ title: 'Deep Dive', link: 'https://www.youtube.com/results?search_query=intermediate+' + domain }]
-        });
-
-        // Advanced
-        steps.push({
-            level: 'Advanced',
-            title: isWeb ? 'Backend & Deployment' : isData ? 'Machine Learning Models' : 'Advanced Architecture',
-            description: 'Build complex systems and deploy them.',
-            resources: [{ title: 'Advanced Tutorial', link: 'https://www.youtube.com/results?search_query=advanced+' + domain }]
-        });
-
-        return steps;
+        return [
+            {
+                level: 'Beginner',
+                title: isWeb ? 'Frontend Foundations' : isData ? 'Python for Data Science' : 'Core Fundamentals',
+                description: 'Build a strong professional foundation.',
+                resources: [{ title: 'Main Guide', link: 'https://www.youtube.com/results?search_query=' + domain + '+beginner' }],
+                subModules: [
+                    { title: 'Core Syntax & Logic', description: 'Technical implementation details.', resources: [] },
+                    { title: 'Environment Setup', description: 'Tooling and workflow.', resources: [] }
+                ]
+            },
+            {
+                level: 'Intermediate',
+                title: isWeb ? 'Modern Frameworks' : isData ? 'Machine Learning Lifecycle' : 'Intermediate Concepts',
+                description: 'Industry-standard tools and practices.',
+                resources: [{ title: 'Deep Dive', link: 'https://www.youtube.com/results?search_query=' + domain + '+intermediate' }],
+                subModules: [
+                    { title: 'Advanced State Patterns', description: 'Data flow and optimization.', resources: [] },
+                    { title: 'API & External Data', description: 'Connectivity and integration.', resources: [] }
+                ]
+            },
+            {
+                level: 'Advanced',
+                title: isWeb ? 'Enterprise Scalability' : isData ? 'Deep Learning Systems' : 'Advanced Systems',
+                description: 'Production-ready architecture.',
+                resources: [{ title: 'The Masterclass', link: 'https://www.youtube.com/results?search_query=' + domain + '+advanced' }],
+                subModules: [
+                    { title: 'DevOps & Deployment', description: 'CI/CD and monitoring.', resources: [] },
+                    { title: 'Security Architectures', description: 'Advanced protection strategies.', resources: [] }
+                ]
+            }
+        ];
     }
 };
 
-module.exports = { generateTasks, generateRoadmap };
+const suggestCareers = async (profile) => {
+    try {
+        const prompt = `
+      As a career guidance AI, analyze the following student profile and suggest the TOP 3 HIGH-POTENTIAL career paths.
+      The suggestions must be DYNAMIC and based on their specific interests. 
+      If they mentioned "Blockchain", suggest Blockchain roles. If "IOT", suggest IOT roles. 
+      Do NOT default to "Web Developer" unless it matches their profile.
+
+      Student Profile:
+      - Interests: ${profile.academicBaseline.techInterests.join(', ')}
+      - Programming Languages: ${profile.academicBaseline.programmingLanguages.join(', ')}
+      - Learning Style: ${profile.learningStyle.primaryStyle}
+      - Current Education: ${profile.personalInfo.education}
+
+      Return ONLY a JSON array of 3 objects with this structure (no markdown):
+      [
+        {
+          "title": "Career Title",
+          "description": "Short explanation of the role",
+          "requiredSkills": ["Skill 1", "Skill 2"],
+          "averageSalary": "Expected Range (LPAs)",
+          "growthOutlook": "High/Stable/Exponential",
+          "matchScore": 95,
+          "matchReasons": ["Why it matches interest X", "Why it matches style Y"]
+        }
+      ]
+    `;
+
+        const completion = await openai.chat.completions.create({
+            messages: [{ role: "system", content: "You are a professional career advisor." }, { role: "user", content: prompt }],
+            model: "gpt-3.5-turbo",
+            max_tokens: 1500
+        });
+
+        const content = completion.choices[0].message.content;
+        const cleanJson = content.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(cleanJson);
+
+    } catch (error) {
+        console.error("AI Profiling Error:", error);
+        // Better fallback than just static names
+        return [
+            {
+                title: profile.academicBaseline.techInterests[0] || "Software Engineer",
+                description: "Focused on your primary interest.",
+                requiredSkills: profile.academicBaseline.programmingLanguages,
+                averageSalary: "6-12 LPA",
+                growthOutlook: "High",
+                matchScore: 80,
+                matchReasons: ["Based on your interest in " + (profile.academicBaseline.techInterests[0] || "technology")]
+            },
+            {
+                title: "Full Stack Developer",
+                description: "Versatile role building end-to-end applications.",
+                requiredSkills: ["JavaScript", "Node.js", "React"],
+                averageSalary: "5-10 LPA",
+                growthOutlook: "Stable",
+                matchScore: 70,
+                matchReasons: ["Matches general software interest"]
+            },
+            {
+                title: "Specialist in " + (profile.academicBaseline.programmingLanguages[0] || "Development"),
+                description: "Expertise in specific technical domain.",
+                requiredSkills: profile.academicBaseline.programmingLanguages,
+                averageSalary: "7-14 LPA",
+                growthOutlook: "High",
+                matchScore: 75,
+                matchReasons: ["Matches your core skills"]
+            }
+        ];
+    }
+};
+
+module.exports = { generateTasks, generateRoadmap, suggestCareers };
