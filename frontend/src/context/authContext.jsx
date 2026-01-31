@@ -32,10 +32,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (username, email, password) => {
-    await axios.post("http://localhost:3000/auth/register", { username, email, password }, {
-      headers: { "Content-Type": "application/json" }
-    });
-    await checkUser(); // Update user state immediately after registration
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:3000/auth/register", { username, email, password }, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true
+      });
+      await checkUser(); // Update user state immediately after registration
+    } catch (error) {
+      setLoading(false); // Reset loading if registration fails
+      throw error;
+    }
   };
 
   const logout = async () => {

@@ -6,6 +6,9 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import StudentProfiling from "./pages/StudentProfiling";
 import ProfileView from "./pages/ProfileView";
+import CareerQuiz from "./components/edutech/CareerQuiz";
+import RoadmapView from "./components/edutech/RoadmapView";
+import WellnessCenter from "./pages/WellnessCenter";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -46,6 +49,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfileView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/career-mapping"
+            element={
+              <ProtectedRoute>
+                <CareerQuiz />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roadmap"
+            element={
+              <ProtectedRoute>
+                <RoadmapView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wellness"
+            element={
+              <ProtectedRoute>
+                <WellnessCenter />
               </ProtectedRoute>
             }
           />
