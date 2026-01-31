@@ -3,12 +3,16 @@ import api from "../api";
 import { CheckCircle, Circle, PlayCircle, BookOpen, Trophy, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import RoadmapChatbot from "../components/RoadmapChatbot";
+import QuizModal from "../components/QuizModal";
+
 
 const RoadmapView = () => {
     const [roadmap, setRoadmap] = useState(null);
     const [loading, setLoading] = useState(true);
     const [expandedSteps, setExpandedSteps] = useState({});
     const [chatbot, setChatbot] = useState({ isOpen: false, level: null });
+    const [quiz, setQuiz] = useState({ isOpen: false, topic: "", level: "" });
+
 
     useEffect(() => {
         fetchRoadmap();
@@ -87,6 +91,11 @@ const RoadmapView = () => {
     const openChatbot = (level) => {
         setChatbot({ isOpen: true, level });
     };
+
+    const openQuiz = (topic, level) => {
+        setQuiz({ isOpen: true, topic, level });
+    };
+
 
     if (loading) return <div className="p-10 text-center">Loading Roadmap...</div>;
 
@@ -260,6 +269,12 @@ const RoadmapView = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex gap-2">
+                                                                        <button
+                                                                            onClick={() => openQuiz(sub.title, step.level)}
+                                                                            className="px-2 py-1 text-[10px] font-bold bg-primary/10 text-primary rounded border border-primary/20 hover:bg-primary hover:text-white transition-all transform hover:scale-105"
+                                                                        >
+                                                                            Quiz
+                                                                        </button>
                                                                         {sub.resources.map((r, ri) => (
                                                                             <a key={ri} href={r.link} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-primary transition-colors bg-gray-50 p-1.5 rounded-md">
                                                                                 <BookOpen size={14} />
@@ -288,7 +303,15 @@ const RoadmapView = () => {
                 domain={roadmap.domain}
                 level={chatbot.level}
             />
+            {/* Quiz Portal */}
+            <QuizModal
+                isOpen={quiz.isOpen}
+                onClose={() => setQuiz({ ...quiz, isOpen: false })}
+                topic={quiz.topic}
+                level={quiz.level}
+            />
         </div>
+
     );
 };
 

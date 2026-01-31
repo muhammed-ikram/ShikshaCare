@@ -16,8 +16,6 @@ Guidelines:
     *   "I'm really concerned about you. Please reach out to a professional or a trusted adult immediately."
     *   Include generic helpline suggestions like "You can call 988 or your local emergency number."
 6.  **Structure**: Keep responses concise and easy to read.
-
-Input: 
 `;
 
 exports.analyzeMood = async (req, res) => {
@@ -34,7 +32,9 @@ exports.analyzeMood = async (req, res) => {
         const result = await model.generateContent(mentalHealthPrompt + "\nUser Input: " + message);
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-        const result = await model.generateContent(mentalHealthPrompt + message);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+        const result = await model.generateContent(mentalHealthPrompt + "\nUser Input: " + message);
         const response = await result.response;
         const text = response.text();
 
