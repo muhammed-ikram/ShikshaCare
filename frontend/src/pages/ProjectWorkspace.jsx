@@ -188,6 +188,11 @@ const ProjectWorkspace = () => {
                                                                     }`}>
                                                                     {task.priority}
                                                                 </span>
+                                                                {task.module && (
+                                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded border bg-purple-50 text-purple-600 border-purple-100">
+                                                                        {task.module}
+                                                                    </span>
+                                                                )}
                                                             </div>
                                                             <button onClick={() => handleDeleteTask(task._id)} className="text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 <Trash2 size={14} />

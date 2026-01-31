@@ -8,6 +8,7 @@ const taskSchema = mongoose.Schema({
     },
     title: { type: String, required: true },
     description: { type: String },
+    module: { type: String, default: "General" },
     status: {
         type: String,
         enum: ['Todo', 'In Progress', 'Done'],

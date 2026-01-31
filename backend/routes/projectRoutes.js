@@ -71,15 +71,22 @@ router.post('/:id/generate-tasks', isLoggedIn, async (req, res) => {
         const { generateTasks } = require('../services/aiService');
         const aiTasks = await generateTasks(project);
 
-        const savedTasks = await Promise.all(aiTasks.map(async (t) => {
-            return await Task.create({
-                project: project._id,
-                title: t.title,
-                description: t.description,
-                priority: t.priority,
-                status: 'Todo'
-            });
-        }));
+        const savedTasks = [];
+        for (const t of aiTasks) {
+            // Check for duplicate title in this project to avoid repetition
+            const exists = await Task.findOne({ project: project._id, title: t.title });
+            if (!exists) {
+                const newTask = await Task.create({
+                    project: project._id,
+                    title: t.title,
+                    description: t.description,
+                    module: t.module || "General",
+                    priority: t.priority,
+                    status: 'Todo'
+                });
+                savedTasks.push(newTask);
+            }
+        }
 
         res.json({ success: true, tasks: savedTasks });
     } catch (error) {
