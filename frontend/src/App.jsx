@@ -10,6 +10,7 @@ import CareerResults from "./pages/CareerResults";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import ProjectWorkspace from "./pages/ProjectWorkspace";
 import RoadmapView from "./pages/RoadmapView";
+import MentalHealthChat from "./pages/MentalHealthChat";
 
 import Layout from "./components/Layout";
 
@@ -87,9 +88,18 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/mental-health-chat"
+            element={
+              <ProtectedRoute>
+                <MentalHealthChat />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </AuthProvider>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 }
 

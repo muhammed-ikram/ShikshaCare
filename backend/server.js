@@ -30,6 +30,7 @@ app.use("/api/career", require('./routes/careerRoutes'));
 app.use("/api/projects", require('./routes/projectRoutes'));
 app.use("/api/tasks", require('./routes/taskRoutes'));
 app.use("/api/roadmap", require('./routes/roadmapRoutes'));
+app.use("/api/chat", require('./routes/chatbotRoutes'));
 app.use('/uploads', express.static('uploads'));
 
 
