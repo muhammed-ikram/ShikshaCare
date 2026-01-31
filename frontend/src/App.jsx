@@ -4,6 +4,8 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import StudentProfiling from "./pages/StudentProfiling";
+import ProfileView from "./pages/ProfileView";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -28,6 +30,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student-profile"
+            element={
+              <ProtectedRoute>
+                <StudentProfiling />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfileView />
               </ProtectedRoute>
             }
           />

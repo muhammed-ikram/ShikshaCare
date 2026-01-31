@@ -25,8 +25,8 @@ const Register = () => {
     setIsSubmitting(true);
     try {
       await register(formData.username, formData.email, formData.password);
-      // Redirect to login after successful registration
-      navigate("/login");
+      // Redirect to profile setup after successful registration
+      navigate("/student-profile");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
