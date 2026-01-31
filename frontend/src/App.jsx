@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import StudentProfiling from "./pages/StudentProfiling";
 import ProfileView from "./pages/ProfileView";
 import CareerResults from "./pages/CareerResults";
+import ProjectDashboard from "./pages/ProjectDashboard";
+import ProjectWorkspace from "./pages/ProjectWorkspace";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -55,6 +57,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfileView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects"
+            element={
+              <ProtectedRoute>
+                <ProjectDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute>
+                <ProjectWorkspace />
               </ProtectedRoute>
             }
           />
