@@ -12,6 +12,7 @@ const Sidebar = () => {
         { path: "/projects", label: "Project Builder", icon: <LayoutDashboard size={20} /> },
         { path: "/roadmap", label: "My Roadmap", icon: <Map size={20} /> },
         { path: "/profile", label: "Profile", icon: <User size={20} /> },
+        { path: "/mental-health-chat", label: "Mental Health Chat", icon: <User size={20} /> },
     ];
 
     return (
