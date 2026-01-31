@@ -1,0 +1,32 @@
+require('dotenv').config();
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const passport = require("passport");
+require("./config/passport");
+const authRoutes = require('./routes/authRoutes');
+// const userRoutes = require('./routes/userRoutes');
+// const postRoutes = require('./routes/postRoutes');
+// const commentRoutes = require('./routes/commentRoutes');
+
+const app = express();
+// app.use(cors());
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+app.use(passport.initialize());
+
+app.use("/auth",authRoutes);
+
+
+
+app.listen(3000, () => {
+  console.log("Backend running on port 3000");
+});
