@@ -9,6 +9,7 @@ import ProfileView from "./pages/ProfileView";
 import CareerResults from "./pages/CareerResults";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import ProjectWorkspace from "./pages/ProjectWorkspace";
+import RoadmapView from "./pages/RoadmapView";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -73,6 +74,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProjectWorkspace />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roadmap"
+            element={
+              <ProtectedRoute>
+                <RoadmapView />
               </ProtectedRoute>
             }
           />
