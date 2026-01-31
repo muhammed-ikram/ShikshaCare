@@ -29,12 +29,8 @@ exports.analyzeMood = async (req, res) => {
         }
 
 
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         const result = await model.generateContent(mentalHealthPrompt + "\nUser Input: " + message);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-        const result = await model.generateContent(mentalHealthPrompt + message);
         const response = await result.response;
         const text = response.text();
 
