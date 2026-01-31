@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import { Link } from "react-router-dom";
-import { ArrowRight, Trophy, Code, Lightbulb, Users } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Trophy, Code, Lightbulb, Users, BookOpen } from "lucide-react";
 
 const CareerResults = () => {
+    const navigate = useNavigate();
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -95,8 +96,21 @@ const CareerResults = () => {
                                     </ul>
                                 </div>
 
-                                <button className="w-full py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 mt-auto">
-                                    View Roadmap <ArrowRight size={16} />
+                                <button
+                                    onClick={async () => {
+                                        if (confirm(`Generate detailed roadmap for ${career.title}?`)) {
+                                            try {
+                                                await api.post('/api/roadmap/generate', { domain: career.title });
+                                                navigate('/roadmap');
+                                            } catch (e) {
+                                                alert("Failed to generate roadmap");
+                                                console.error(e);
+                                            }
+                                        }
+                                    }}
+                                    className="w-full py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 mt-auto"
+                                >
+                                    <BookOpen size={16} /> Generate Roadmap
                                 </button>
                             </div>
                         </div>

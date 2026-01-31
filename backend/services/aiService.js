@@ -4,6 +4,8 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
+console.log("AI Service Initialized. API Key present:", !!process.env.OPENAI_API_KEY);
+
 const generateTasks = async (project) => {
     try {
         const prompt = `
@@ -66,4 +68,71 @@ const generateTasks = async (project) => {
     }
 };
 
-module.exports = { generateTasks };
+
+
+const generateRoadmap = async (domain) => {
+    try {
+        const prompt = `
+      You are a career coach. Create a step-by-step learning roadmap for: ${domain}.
+      Divide into 3 levels: Beginner, Intermediate, Advanced.
+      For each step, provide a topic, brief description, and ONE free YouTube resource link (real or search query format).
+      
+      Return ONLY a JSON array of objects with this structure:
+      [
+        { 
+          "level": "Beginner", 
+          "title": "Topic Title", 
+          "description": "What to learn", 
+          "resources": [{ "title": "Resource Name", "link": "https://youtube.com/results?search_query=topic" }] 
+        }
+      ]
+    `;
+
+        const completion = await openai.chat.completions.create({
+            messages: [{ role: "system", content: "You are a helpful assistant that outputs JSON." }, { role: "user", content: prompt }],
+            model: "gpt-3.5-turbo",
+            max_tokens: 2500
+        });
+
+        const content = completion.choices[0].message.content;
+        const cleanJson = content.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(cleanJson);
+
+    } catch (error) {
+        console.error("OpenAI Error (Roadmap):", error);
+
+        // Smart Fallback
+        const isWeb = domain.toLowerCase().includes('web') || domain.toLowerCase().includes('stack');
+        const isData = domain.toLowerCase().includes('data') || domain.toLowerCase().includes('ai');
+
+        const steps = [];
+
+        // Beginner
+        steps.push({
+            level: 'Beginner',
+            title: isWeb ? 'HTML/CSS/JS Basics' : isData ? 'Python Basics' : 'Core Fundamentals',
+            description: 'Master the building blocks of the language and environment.',
+            resources: [{ title: 'Crash Course', link: 'https://www.youtube.com/results?search_query=crash+course+' + domain }]
+        });
+
+        // Intermediate
+        steps.push({
+            level: 'Intermediate',
+            title: isWeb ? 'Frontend Frameworks (React)' : isData ? 'Pandas & NumPy' : 'Intermediate Concepts',
+            description: 'Learn standard libraries and frameworks used in industry.',
+            resources: [{ title: 'Deep Dive', link: 'https://www.youtube.com/results?search_query=intermediate+' + domain }]
+        });
+
+        // Advanced
+        steps.push({
+            level: 'Advanced',
+            title: isWeb ? 'Backend & Deployment' : isData ? 'Machine Learning Models' : 'Advanced Architecture',
+            description: 'Build complex systems and deploy them.',
+            resources: [{ title: 'Advanced Tutorial', link: 'https://www.youtube.com/results?search_query=advanced+' + domain }]
+        });
+
+        return steps;
+    }
+};
+
+module.exports = { generateTasks, generateRoadmap };
