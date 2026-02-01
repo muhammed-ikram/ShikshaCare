@@ -27,7 +27,9 @@ router.post('/register', async (req, res) => {
   await user.save();
   res.cookie('token', token, {
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: true,
+    sameSite: 'none'
   });
   res.status(201).json({
     success: true,
@@ -61,7 +63,9 @@ router.post('/login', async (req, res) => {
   );
   res.cookie("token", token, {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24
+    maxAge: 1000 * 60 * 60 * 24,
+    secure: true,
+    sameSite: 'none'
   });
   res.status(201).json({
     success: true,
@@ -87,7 +91,9 @@ router.get(
   (req, res) => {
     res.cookie("token", req.user.token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: true,
+      sameSite: 'none'
     });
 
     res.redirect("https://shikshacare.vercel.app/home");
@@ -96,7 +102,10 @@ router.get(
 
 
 router.post('/logout', (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    secure: true,
+    sameSite: 'none'
+  });
   res.json({ success: true });
 });
 

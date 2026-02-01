@@ -22,10 +22,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (user, token) => {
-    setUser(user);
+  const login = async (userData, token) => {
+    setUser(userData);
     // Token is handled by api instance (cookies/headers)
-    await checkUser();
+    // We don't necessarily need to checkUser again immediately if we just logged in successfully
+    // but we can if we want to be 100% sure the cookie is valid.
+    // However, to prevent flickering/redirect loop, we trust the userData returned from login.
   };
 
   const register = async (username, email, password) => {
