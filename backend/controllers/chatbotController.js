@@ -29,6 +29,24 @@ exports.analyzeMood = async (req, res) => {
                     { role: "system", content: mentalHealthPrompt },
                     { role: "user", content: message }
                 ]
+
+        if (!message) {
+            return res.status(400).json({ error: "Message is required" });
+        }
+
+
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(mentalHealthPrompt + "\nUser Input: " + message);
+        const response = await result.response;
+        const text = response.text();
+
+        res.json({ reply: text });
+    } catch (error) {
+        console.error("Error with Gemini API:", error);
+
+        if (error.status === 429 || error.message?.includes('429')) {
+            return res.status(429).json({
+                error: "I'm receiving too many messages right now. Please wait a moment and try again."
             });
             res.json({ reply: response.choices[0].message.content });
         } catch (oaError) {

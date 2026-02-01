@@ -176,6 +176,28 @@ const Home = () => {
                         </div>
                     </div>
                 </motion.div>
+
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 col-span-1 md:col-span-2">
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-xl font-semibold text-gray-800">Mental Health Module</h2>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => navigate("/progress")}
+                                    className="text-sm bg-indigo-50 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-100 font-medium transition-colors"
+                                >
+                                    View Analytics
+                                </button>
+                                <button
+                                    onClick={() => navigate("/assess")}
+                                    className="text-sm bg-rose-50 text-rose-600 px-4 py-2 rounded-lg hover:bg-rose-100 font-medium transition-colors"
+                                >
+                                    New Assessment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

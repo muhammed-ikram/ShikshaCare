@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, User, Briefcase, Map, LayoutDashboard, LogOut, Sparkles, Brain, Activity } from "lucide-react";
+import { Home, User, Briefcase, Map, LayoutDashboard, LogOut, Activity, MessageSquareHeart } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 
@@ -14,6 +15,9 @@ const Sidebar = () => {
         { path: "/projects", label: "Project Builder", icon: <LayoutDashboard size={20} /> },
         { path: "/profile", label: "My Digital Twin", icon: <Activity size={20} /> },
         { path: "/mental-health-chat", label: "AI Wellness", icon: <Sparkles size={20} /> },
+        { path: "/profile", label: "Profile", icon: <User size={20} /> },
+        { path: "/progress", label: "Mental Wellness", icon: <Activity size={20} /> },
+        { path: "/mental-health-chat", label: "Mental Health Chat", icon: <MessageSquareHeart size={20} /> },
     ];
 
     return (

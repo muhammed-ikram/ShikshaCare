@@ -55,6 +55,32 @@ const generateRoadmap = async (domain) => {
       subModules: [
         { title: "Introduction & Setup", description: "Configuring your development environment.", resources: [] },
         { title: "Syntax & Core Principles", description: "Understanding basic building blocks.", resources: [] }
+  try {
+    const prompt = `
+      You are an expert technical curriculum lead. Create a DEEP-DIVE technical learning roadmap for: ${domain}.
+      Divide into 3 levels: Beginner, Intermediate, Advanced.
+      
+      CRITICAL INSTRUCTIONS:
+      - Use INDUSTRY-STANDARD technical terms (e.g., instead of "Web Basics", use "Semantic HTML5, CSS Grid/Flexbox, and ES6+ Fundamentals").
+      - For each main module, you MUST break it down into 4-6 granular, real-world technical sub-topics (subModules).
+      - Sub-modules should represent actual implementation concepts (e.g., "State Synchronization", "JWT Authentication flow", "Database Indexing Strategies").
+      - Provide a specific YouTube tutorial link for each MAIN module.
+
+      Return ONLY a JSON array of objects with this structure (no markdown):
+      [
+        { 
+          "level": "Beginner", 
+          "title": "Precise Technical Module Title", 
+          "description": "Professional overview of the core competency", 
+          "resources": [{ "title": "Main Tutorial", "link": "https://youtube.com/results?search_query=..." }],
+          "subModules": [
+             {
+               "title": "Granular Technical Topic", 
+               "description": "Technical depth and real-world usage",
+               "resources": [{ "title": "In-depth Guide", "link": "..." }]
+             }
+          ]
+        }
       ]
     },
     {
@@ -136,6 +162,114 @@ const generateQuiz = async (topic, level) => {
       explanation: "Modern tech is moving towards integration and automation."
     }
   ];
+  try {
+    const prompt = `
+      As a career guidance AI, analyze the following student profile and suggest the TOP 3 HIGH-POTENTIAL career paths.
+      Be dynamic! If they like Blockchain, suggest Blockchain. If IOT, suggest IOT.
+
+      Student Profile:
+      - Interests: ${profile.academicBaseline.techInterests.join(', ')}
+      - Languages: ${profile.academicBaseline.programmingLanguages.join(', ')}
+      - Learning Style: ${profile.learningStyle.primaryStyle}
+      - Current Education: ${profile.personalInfo.education}
+
+      Return ONLY a JSON array of 3 objects:
+      [
+        {
+          "title": "Career Title",
+          "description": "Explanation",
+          "requiredSkills": ["Skill 1", "Skill 2"],
+          "averageSalary": "Range",
+          "growthOutlook": "Outlook",
+          "matchScore": 95,
+          "matchReasons": ["Reason 1", "Reason 2"]
+        }
+      ]
+    `;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const cleanJson = cleanAIResponse(response.text());
+    return JSON.parse(cleanJson);
+  } catch (error) {
+    console.error("Gemini Error (Careers):", error);
+    return [
+      {
+        title: profile.academicBaseline.techInterests[0] || "Software Engineer",
+        description: "Focused on your primary interest.",
+        requiredSkills: profile.academicBaseline.programmingLanguages,
+        averageSalary: "6-12 LPA",
+        growthOutlook: "High",
+        matchScore: 80,
+        matchReasons: ["Based on your interest in " + (profile.academicBaseline.techInterests[0] || "technology")]
+      }
+    ];
+  }
+};
+
+const generateQuiz = async (topic, level) => {
+  try {
+    console.log(`Generating quiz for Topic: ${topic}, Level: ${level}`);
+    const seed = Math.random().toString(36).substring(7);
+    const twists = ["security and vulnerabilities", "performance optimization", "real-world debugging", "architecture and design patterns", "edge-case handling"];
+    const twist = twists[Math.floor(Math.random() * twists.length)];
+
+    const prompt = `
+      You are a senior technical interviewer. Create a challenging, UNIQUE 5-question multiple-choice quiz (MCQ) for the topic: "${topic}" at the ${level} level.
+      Variation Focus: ${twist}
+      Variation ID: ${seed}
+      
+      CRITICAL REQUIREMENTS:
+      1. Each question MUST be different from previous sessions. Focus HEAVILY on the '${twist}' aspect of ${topic}.
+      2. No generic questions. Use complex technical scenarios.
+      3. Provide 4 distinct options with exactly one correct answer.
+      4. Ensure you return exactly 5 questions.
+
+      Return ONLY a JSON array of 5 objects (no markdown blocks):
+      [
+        {
+          "question": "The question text?",
+          "options": ["Option A", "Option B", "Option C", "Option D"],
+          "correctAnswer": 0,
+          "explanation": "Technical reasoning for the correct answer."
+        }
+      ]
+    `;
+
+    const result = await model.generateContent({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.9,
+        topP: 0.95,
+        topK: 40,
+        maxOutputTokens: 2000,
+      }
+    });
+
+    const response = await result.response;
+    const text = response.text();
+    console.log("Raw AI Response received");
+
+    const cleanJson = cleanAIResponse(text);
+    const parsed = JSON.parse(cleanJson);
+
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      throw new Error("Invalid format: Not an array or empty");
+    }
+
+    return parsed;
+
+  } catch (error) {
+    console.error("Gemini Error (Quiz):", error);
+    const pool = [
+      { question: `In production, how should ${topic} be optimized for ${level} performance?`, options: ["Resource allocation", "Dependency minimization", "Efficient caching", "Complexity reduction"], correctAnswer: 2, explanation: "Caching is usually the first line of defense." },
+      { question: `Which security vulnerability is most common in ${topic}?`, options: ["Injection", "Insecure Config", "Weak Auth", "All of the above"], correctAnswer: 3, explanation: "Multiple vectors exist." },
+      { question: `What is the reliable way to handle ${topic} state?`, options: ["Local only", "Global management", "Prop drilling", "Static vars"], correctAnswer: 1, explanation: "Global state ensures consistency." },
+      { question: `Standard tool for monitoring ${topic}?`, options: ["Prometheus", "Standard Logs", "Manual check", "Basic Alerts"], correctAnswer: 0, explanation: "Prometheus is an industry standard." },
+      { question: `Key benefit of modular ${topic}?`, options: ["Debugging", "Execution speed", "File size", "Less code"], correctAnswer: 0, explanation: "Modularity improves maintainability." }
+    ];
+    return pool.sort(() => 0.5 - Math.random()).slice(0, 5);
+  }
 };
 
 module.exports = { generateTasks, generateRoadmap, suggestCareers, generateQuiz };
