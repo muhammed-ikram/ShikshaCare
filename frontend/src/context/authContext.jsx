@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 const AuthContext = createContext();
 
@@ -13,9 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkUser = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/auth/me", {
-        withCredentials: true
-      });
+      const res = await api.get("/api/auth/me");
       setUser(res.data);
     } catch (error) {
       setUser(null);
@@ -24,24 +22,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (email, password) => {
-    await axios.post("http://localhost:3000/auth/login", { email, password }, {
-      withCredentials: true
-    });
+  const login = async (user, token) => {
+    setUser(user);
+    // Token is handled by api instance (cookies/headers)
     await checkUser();
   };
 
   const register = async (username, email, password) => {
-    await axios.post("http://localhost:3000/auth/register", { username, email, password }, {
-      headers: { "Content-Type": "application/json" }
-    });
-    await checkUser(); // Update user state immediately after registration
+    await api.post("/api/auth/register", { username, email, password });
+    await checkUser();
   };
 
   const logout = async () => {
-    await axios.post("http://localhost:3000/auth/logout", {}, {
-      withCredentials: true
-    });
+    await api.post("/api/auth/logout");
     setUser(null);
   };
 

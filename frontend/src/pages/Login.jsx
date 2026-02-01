@@ -115,7 +115,7 @@ const Login = () => {
 
             <button
               type="button"
-              onClick={() => window.location.href = "http://localhost:3000/api/auth/google"}
+              onClick={() => window.location.href = "https://shikshacare-5ke4.onrender.com/api/auth/google"}
               className="w-full bg-white/50 hover:bg-white border-2 border-slate-100 hover:border-indigo-100 py-4 rounded-2xl font-bold text-slate-700 transition-all flex items-center justify-center gap-3 active:scale-95 shadow-sm"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
