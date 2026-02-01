@@ -28,7 +28,9 @@ app.use(cors({
 }));
 app.use(passport.initialize());
 
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes); // For initiation (Login button)
+app.use("/auth", authRoutes);     // For callback (Google redirect)
+
 app.use("/api/student", require('./routes/studentRoutes'));
 app.use("/api/user", require('./routes/userRoutes'));
 app.use("/api/career", require('./routes/careerRoutes'));
