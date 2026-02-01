@@ -79,7 +79,7 @@ const Progress = () => {
                             label: 'Mental Wellness Score',
                             data: scores,
                             borderColor: 'rgb(139, 92, 246)', // Violet/Purple
-                            backgroundColor: 'rgba(139, 92, 246, 0.5)',
+                            backgroundColor: 'rgba(244, 241, 250, 0.5)',
                             tension: 0.3
                         }
                     ]
@@ -124,21 +124,21 @@ const Progress = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-900">
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen py-8 bg-gray-900">
+        <div className="min-h-screen py-8 bg-gray-50">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+                    <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
                         Progress
                         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Analytics</span>
                     </h1>
-                    <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                         Track your mental health journey with detailed insights and visualizations
                     </p>
                 </div>
@@ -146,11 +146,11 @@ const Progress = () => {
                 {/* Statistics Overview */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     {/* Total Assessments */}
-                    <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                    <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-slate-400 text-sm">Total Assessments</p>
-                                <p className="text-2xl font-bold text-white">{stats.totalAssessments}</p>
+                                <p className="text-gray-500 text-sm">Total Assessments</p>
+                                <p className="text-2xl font-bold text-gray-900">{stats.totalAssessments}</p>
                             </div>
                             <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
                                 <span className="text-blue-400 text-2xl">📝</span>
@@ -159,11 +159,11 @@ const Progress = () => {
                     </div>
 
                     {/* Average Score */}
-                    <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                    <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-slate-400 text-sm">Average Score</p>
-                                <p className="text-2xl font-bold text-white">{stats.averageScore}/5</p>
+                                <p className="text-gray-500 text-sm">Average Score</p>
+                                <p className="text-2xl font-bold text-gray-900">{stats.averageScore}/5</p>
                             </div>
                             <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
                                 <span className="text-green-400 text-xl">📊</span>
@@ -172,11 +172,11 @@ const Progress = () => {
                     </div>
 
                     {/* Highest Score */}
-                    <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                    <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-slate-400 text-sm">Highest Score</p>
-                                <p className="text-2xl font-bold text-white">{stats.highestScore}/5</p>
+                                <p className="text-gray-500 text-sm">Highest Score</p>
+                                <p className="text-2xl font-bold text-gray-900">{stats.highestScore}/5</p>
                             </div>
                             <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
                                 <span className="text-purple-400 text-xl">🏆</span>
@@ -185,10 +185,10 @@ const Progress = () => {
                     </div>
 
                     {/* Trend */}
-                    <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                    <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-slate-400 text-sm">Trend</p>
+                                <p className="text-gray-500 text-sm">Trend</p>
                                 <div className="flex items-center space-x-2">
                                     <span className={`text-sm font-bold capitalize ${stats.trend === 'improving' ? 'text-green-400' : stats.trend === 'declining' ? 'text-red-400' : 'text-yellow-400'}`}>
                                         {stats.trend}
@@ -205,22 +205,22 @@ const Progress = () => {
                 {/* Plots Section */}
                 <div className="space-y-8">
                     {/* Line Plot */}
-                    <div className="bg-slate-800 rounded-xl p-6 border border-slate-700 min-h-[400px]">
-                        <h2 className="text-2xl font-semibold text-white mb-6 flex items-center justify-center space-x-3">
+                    <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm min-h-[400px]">
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center justify-center space-x-3">
                             <span>Mental Health Trends</span>
                         </h2>
                         <div className="relative h-80 w-full">
-                            {chartData ? <Line options={{ responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 5, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } }, plugins: { legend: { labels: { color: 'white' } } } }} data={chartData} /> : <div className="text-center text-slate-500 mt-20">No data available</div>}
+                            {chartData ? <Line options={{ responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 5, grid: { color: 'rgba(0,0,0,0.1)' } }, x: { grid: { color: 'rgba(0,0,0,0.1)' } } }, plugins: { legend: { labels: { color: '#374151' } } } }} data={chartData} /> : <div className="text-center text-gray-500 mt-20">No data available</div>}
                         </div>
                     </div>
 
                     {/* Bar Plot */}
-                    <div className="bg-slate-800 rounded-xl p-6 border border-slate-700 min-h-[400px]">
-                        <h2 className="text-2xl font-semibold text-white mb-6 flex items-center justify-center space-x-3">
+                    <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm min-h-[400px]">
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center justify-center space-x-3">
                             <span>Mental Health Distribution</span>
                         </h2>
                         <div className="relative h-80 w-full">
-                            {barData ? <Bar options={{ responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } }, plugins: { legend: { labels: { color: 'white' } } } }} data={barData} /> : <div className="text-center text-slate-500 mt-20">No data available</div>}
+                            {barData ? <Bar options={{ responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.1)' } }, x: { grid: { color: 'rgba(0,0,0,0.1)' } } }, plugins: { legend: { labels: { color: '#374151' } } } }} data={barData} /> : <div className="text-center text-gray-500 mt-20">No data available</div>}
                         </div>
                     </div>
                 </div>
