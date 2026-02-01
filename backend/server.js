@@ -46,7 +46,8 @@ app.use('/uploads', express.static('uploads'));
 
 
 
-const __dirname = path.resolve();
+
+
 
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
