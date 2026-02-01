@@ -176,6 +176,10 @@ const Home = () => {
                         </div>
                     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                </motion.div>
+>>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
 
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 col-span-1 md:col-span-2">
                         <div className="flex justify-between items-center">
@@ -198,9 +202,12 @@ const Home = () => {
                     </div>
                 </div>
 
+<<<<<<< HEAD
 =======
                 </motion.div>
 >>>>>>> animations
+=======
+>>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
             </div>
         </div>
     );

@@ -1,9 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Home, User, Briefcase, Map, LayoutDashboard, LogOut, Activity, MessageSquareHeart } from "lucide-react";
 =======
 import { Home, User, Briefcase, Map, LayoutDashboard, LogOut, Sparkles, Brain, Activity } from "lucide-react";
 >>>>>>> animations
+=======
+import { Home, User, Briefcase, Map, LayoutDashboard, LogOut, Sparkles, Brain, Activity } from "lucide-react";
+import { Home, User, Briefcase, Map, LayoutDashboard, LogOut, Activity, MessageSquareHeart } from "lucide-react";
+>>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 
@@ -16,6 +21,7 @@ const Sidebar = () => {
         { path: "/career-results", label: "Career DNA", icon: <Briefcase size={20} /> },
         { path: "/roadmap", label: "My Roadmap", icon: <Map size={20} /> },
 <<<<<<< HEAD
+<<<<<<< HEAD
         { path: "/profile", label: "Profile", icon: <User size={20} /> },
         { path: "/progress", label: "Mental Wellness", icon: <Activity size={20} /> },
         { path: "/mental-health-chat", label: "Mental Health Chat", icon: <MessageSquareHeart size={20} /> },
@@ -24,6 +30,14 @@ const Sidebar = () => {
         { path: "/profile", label: "My Digital Twin", icon: <Activity size={20} /> },
         { path: "/mental-health-chat", label: "AI Wellness", icon: <Sparkles size={20} /> },
 >>>>>>> animations
+=======
+        { path: "/projects", label: "Project Builder", icon: <LayoutDashboard size={20} /> },
+        { path: "/profile", label: "My Digital Twin", icon: <Activity size={20} /> },
+        { path: "/mental-health-chat", label: "AI Wellness", icon: <Sparkles size={20} /> },
+        { path: "/profile", label: "Profile", icon: <User size={20} /> },
+        { path: "/progress", label: "Mental Wellness", icon: <Activity size={20} /> },
+        { path: "/mental-health-chat", label: "Mental Health Chat", icon: <MessageSquareHeart size={20} /> },
+>>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
     ];
 
     return (
