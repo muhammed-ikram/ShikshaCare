@@ -74,7 +74,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "shikshacare.vercel.app/"
+    failureRedirect: "https://shikshacare.vercel.app/"
   }),
   (req, res) => {
     res.cookie("token", req.user.token, {
@@ -82,7 +82,7 @@ router.get(
       maxAge: 1000 * 60 * 60 * 24
     });
 
-    res.redirect("shikshacare.vercel.app/home");
+    res.redirect("https://shikshacare.vercel.app/home");
   }
 );
 
