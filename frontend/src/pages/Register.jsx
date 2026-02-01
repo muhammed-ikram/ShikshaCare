@@ -25,8 +25,8 @@ const Register = () => {
     setError("");
     try {
       const res = await api.post("/api/auth/register", formData);
-      login(res.data.user, res.data.token);
-      navigate("/student-profile");
+      await login(res.data.user, res.data.token);
+      navigate("/home");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     }

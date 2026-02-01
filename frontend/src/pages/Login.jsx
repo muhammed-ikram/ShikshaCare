@@ -18,7 +18,7 @@ const Login = () => {
     setError("");
     try {
       const res = await api.post("/api/auth/login", { email, password });
-      login(res.data.user, res.data.token);
+      await login(res.data.user, res.data.token);
       navigate("/home");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

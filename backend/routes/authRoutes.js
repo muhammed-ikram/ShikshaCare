@@ -29,7 +29,11 @@ router.post('/register', async (req, res) => {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000
   });
-  res.status(201).json({ success: true });
+  res.status(201).json({
+    success: true,
+    user: { id: user._id, username: user.username, email: user.email },
+    token
+  });
 });
 
 
@@ -59,7 +63,11 @@ router.post('/login', async (req, res) => {
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24
   });
-  res.status(201).json({ success: true });
+  res.status(201).json({
+    success: true,
+    user: { id: user._id, username: user.username, email: user.email },
+    token
+  });
 });
 
 //google login
