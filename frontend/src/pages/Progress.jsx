@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -43,9 +43,7 @@ const Progress = () => {
 
     const fetchPlotData = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const config = { headers: { Authorization: `Bearer ${token}` } };
-            const { data } = await axios.get('http://localhost:3000/api/assessment/history', config);
+            const { data } = await api.get('/api/assessment/history');
 
             if (data && data.length > 0) {
                 // Calculate Stats

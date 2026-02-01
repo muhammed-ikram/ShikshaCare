@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const passport = require("passport");
 require("./config/passport");
 const authRoutes = require('./routes/authRoutes');
+const assessmentRoutes = require('./routes/assessmentRoutes');
 // const userRoutes = require('./routes/userRoutes');
 // const postRoutes = require('./routes/postRoutes');
 // const commentRoutes = require('./routes/commentRoutes');
@@ -32,6 +33,7 @@ app.use("/api/tasks", require('./routes/taskRoutes'));
 app.use("/api/roadmap", require('./routes/roadmapRoutes'));
 app.use("/api/chat", require('./routes/chatbotRoutes'));
 app.use("/api/quiz", require('./routes/quizRoutes'));
+app.use("/api/assessment", assessmentRoutes);
 app.use('/uploads', express.static('uploads'));
 
 

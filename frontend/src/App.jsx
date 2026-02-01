@@ -11,6 +11,9 @@ import ProjectDashboard from "./pages/ProjectDashboard";
 import ProjectWorkspace from "./pages/ProjectWorkspace";
 import RoadmapView from "./pages/RoadmapView";
 import MentalHealthChat from "./pages/MentalHealthChat";
+import Assessment from "./pages/Assessment";
+import Exercises from "./pages/Exercises";
+import Progress from "./pages/Progress";
 
 import Layout from "./components/Layout";
 
@@ -97,6 +100,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+          <Route path="/assess" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
+          <Route path="/exercises/:type" element={<ProtectedRoute><Exercises /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter >
