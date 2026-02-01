@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require("path");
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ShikshaCare")
   .then(() => console.log("MongoDB Connected"))
@@ -41,6 +42,17 @@ app.use("/api/chat", require('./routes/chatbotRoutes'));
 app.use("/api/quiz", require('./routes/quizRoutes'));
 app.use("/api/assessment", assessmentRoutes);
 app.use('/uploads', express.static('uploads'));
+
+
+
+
+const __dirname = path.resolve();
+
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 
 
 
