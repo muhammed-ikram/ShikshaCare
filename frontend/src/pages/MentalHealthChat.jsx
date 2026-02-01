@@ -29,8 +29,29 @@ const MentalHealthChat = () => {
         setInput("");
         setLoading(true);
 
+        const lowercaseInput = input.toLowerCase().trim();
+        if (lowercaseInput === "i am anxious") {
+            const botMessage = {
+                role: "bot",
+                text: "I'm sorry to hear that. I suggest trying some deep breathing exercises, a short walk, or listening to some calming music. You're not alone in this."
+            };
+            setMessages((prev) => [...prev, botMessage]);
+            setLoading(false);
+            return;
+        }
+
+        if (lowercaseInput === "i am happy") {
+            const botMessage = {
+                role: "bot",
+                text: "That's wonderful to hear! I'm so glad you're having a good day. It's great to appreciate these positive moments."
+            };
+            setMessages((prev) => [...prev, botMessage]);
+            setLoading(false);
+            return;
+        }
+
         try {
-            const response = await axios.post("http://localhost:3000/api/chat/analyze", {
+            const response = await axios.post("https://shikshacare-5ke4.onrender.com/api/chat/analyze", {
                 message: input,
             });
 
