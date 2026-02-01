@@ -53,7 +53,9 @@ router.post('/analyze', isLoggedIn, async (req, res) => {
             return res.status(404).json({ success: false, message: "Profile not found. Please complete onboarding first." });
         }
 
+        console.log("Analyzing profile for:", profile.academicBaseline.techInterests);
         const recommendations = await suggestCareers(profile);
+        console.log("Sending recommendations:", recommendations?.length || 0);
         res.json({ success: true, recommendations });
 
     } catch (error) {

@@ -1,6 +1,11 @@
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
+const OpenAI = require("openai");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const GEMINI_KEY = process.env.GEMINI_API_KEY ? process.env.GEMINI_API_KEY.trim() : null;
+const OPENAI_KEY = process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.trim() : null;
+
+const genAI = new GoogleGenerativeAI(GEMINI_KEY);
+const openai = new OpenAI({ apiKey: OPENAI_KEY });
 
 const safetySettings = [
   { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
@@ -10,15 +15,14 @@ const safetySettings = [
 ];
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.0-flash",
   safetySettings
 });
 
-console.log("AI Service (Gemini) Initialized with Safety Settings.");
+console.log(`AI Service Initialized. Key Lengths - Gemini: ${GEMINI_KEY?.length || 0}, OpenAI: ${OPENAI_KEY?.length || 0}`);
 
 const cleanAIResponse = (text) => {
   try {
-    // Robustly find JSON array or object
     const jsonStart = text.indexOf('[');
     const jsonEnd = text.lastIndexOf(']');
     if (jsonStart !== -1 && jsonEnd !== -1) {
@@ -31,39 +35,13 @@ const cleanAIResponse = (text) => {
 };
 
 const generateTasks = async (project) => {
-  try {
-    const prompt = `
-      You are a senior technical project manager. 
-      Break down the following software project into a COMPREHENSIVE list of actionable development tasks.
-      Organize the tasks by MODULES (e.g., Authentication, Database, Frontend, Backend, Deployment).
-      
-      Project Title: ${project.title}
-      Description: ${project.description}
-      Tech Stack: ${project.techStack.join(', ')}
-      
-      Return ONLY a JSON array of objects with the following structure:
-      [
-        { "module": "Module Name", "title": "Task Title", "description": "Brief actionable description", "priority": "High/Medium/Low" }
-      ]
-    `;
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const cleanJson = cleanAIResponse(response.text());
-    return JSON.parse(cleanJson);
-  } catch (error) {
-    console.error("Gemini Error (Tasks):", error);
-    // Fallback
-    const stack = project.techStack.map(t => t.toLowerCase().trim());
-    const tasks = [
-      { module: "Project Management", title: "Initialize Repository", description: "Set up Git, .gitignore, and README.md", priority: "High" },
-      { module: "Database", title: "Design Database Schema", description: "Define models and relationships", priority: "High" },
-      { module: "Backend", title: "Setup Server Architecture", description: "Initialize Node.js/Express server structure", priority: "High" },
-      { module: "Backend", title: "Implement Auth Routes", description: "Login, Register, and JWT handling", priority: "High" },
-    ];
-    if (stack.some(t => t.includes('react'))) tasks.push({ module: "Frontend", title: "Setup UI Framework", description: "Initialize React", priority: "High" });
-    return tasks;
-  }
+  console.log(`AI: Running generateTasks for ${project.title} (MOCK MODE ENABLED)`);
+  return [
+    { module: "Project Management", title: "Initialize Development Environment", description: "Set up the local IDE, Git repository, and core dependencies.", priority: "High" },
+    { module: "Frontend", title: "Build Core UI Components", description: "Implement the primary dashboard and navigation system.", priority: "High" },
+    { module: "Backend", title: "API Endpoint Construction", description: "Develop the RESTful services for data persistence.", priority: "Medium" },
+    { module: "DevOps", title: "Initial CI/CD Pipeline", description: "Configure automated testing and deployment triggers.", priority: "Low" }
+  ];
 };
 
 const generateRoadmap = async (domain) => {
@@ -73,22 +51,23 @@ const generateRoadmap = async (domain) => {
       Divide into 3 levels: Beginner, Intermediate, Advanced.
       
       CRITICAL INSTRUCTIONS:
-      - Use INDUSTRY-STANDARD technical terms (e.g., instead of "Web Basics", use "Semantic HTML5, CSS Grid/Flexbox, and ES6+ Fundamentals").
-      - For each main module, you MUST break it down into 4-6 granular, real-world technical sub-topics (subModules).
-      - Sub-modules should represent actual implementation concepts (e.g., "State Synchronization", "JWT Authentication flow", "Database Indexing Strategies").
+      - Use INDUSTRY-STANDARD technical terms.
+      - Each level should have 3-5 main modules (steps).
+      - For each main module, break it down into 4-6 granular, real-world technical sub-topics (subModules).
+      - Sub-modules should represent actual implementation concepts.
       - Provide a specific YouTube tutorial link for each MAIN module.
 
-      Return ONLY a JSON array of objects with this structure (no markdown):
+      Return ONLY a JSON array of objects with this structure:
       [
         { 
           "level": "Beginner", 
           "title": "Precise Technical Module Title", 
-          "description": "Professional overview of the core competency", 
-          "resources": [{ "title": "Main Tutorial", "link": "https://youtube.com/results?search_query=..." }],
+          "description": "Professional overview", 
+          "resources": [{ "title": "Main Tutorial", "link": "https://youtube.com/..." }],
           "subModules": [
              {
                "title": "Granular Technical Topic", 
-               "description": "Technical depth and real-world usage",
+               "description": "Technical depth",
                "resources": [{ "title": "In-depth Guide", "link": "..." }]
              }
           ]
@@ -124,7 +103,6 @@ const suggestCareers = async (profile) => {
       - Interests: ${profile.academicBaseline.techInterests.join(', ')}
       - Languages: ${profile.academicBaseline.programmingLanguages.join(', ')}
       - Learning Style: ${profile.learningStyle.primaryStyle}
-      - Current Education: ${profile.personalInfo.education}
 
       Return ONLY a JSON array of 3 objects:
       [
@@ -146,23 +124,14 @@ const suggestCareers = async (profile) => {
     return JSON.parse(cleanJson);
   } catch (error) {
     console.error("Gemini Error (Careers):", error);
-    return [
-      {
-        title: profile.academicBaseline.techInterests[0] || "Software Engineer",
-        description: "Focused on your primary interest.",
-        requiredSkills: profile.academicBaseline.programmingLanguages,
-        averageSalary: "6-12 LPA",
-        growthOutlook: "High",
-        matchScore: 80,
-        matchReasons: ["Based on your interest in " + (profile.academicBaseline.techInterests[0] || "technology")]
-      }
-    ];
+    return [];
   }
 };
 
 const generateQuiz = async (topic, level) => {
   try {
     console.log(`Generating quiz for Topic: ${topic}, Level: ${level}`);
+    // Add a random seed element to ensure variety even with same parameters
     const seed = Math.random().toString(36).substring(7);
     const twists = ["security and vulnerabilities", "performance optimization", "real-world debugging", "architecture and design patterns", "edge-case handling"];
     const twist = twists[Math.floor(Math.random() * twists.length)];
@@ -192,7 +161,7 @@ const generateQuiz = async (topic, level) => {
     const result = await model.generateContent({
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       generationConfig: {
-        temperature: 0.9,
+        temperature: 0.9, // Higher temperature for more variety
         topP: 0.95,
         topK: 40,
         maxOutputTokens: 2000,
@@ -210,17 +179,23 @@ const generateQuiz = async (topic, level) => {
       throw new Error("Invalid format: Not an array or empty");
     }
 
+    console.log(`Successfully generated ${parsed.length} questions`);
     return parsed;
 
   } catch (error) {
     console.error("Gemini Error (Quiz):", error);
+    // Robust randomized 5-question fallback
     const pool = [
       { question: `In production, how should ${topic} be optimized for ${level} performance?`, options: ["Resource allocation", "Dependency minimization", "Efficient caching", "Complexity reduction"], correctAnswer: 2, explanation: "Caching is usually the first line of defense." },
       { question: `Which security vulnerability is most common in ${topic}?`, options: ["Injection", "Insecure Config", "Weak Auth", "All of the above"], correctAnswer: 3, explanation: "Multiple vectors exist." },
       { question: `What is the reliable way to handle ${topic} state?`, options: ["Local only", "Global management", "Prop drilling", "Static vars"], correctAnswer: 1, explanation: "Global state ensures consistency." },
       { question: `Standard tool for monitoring ${topic}?`, options: ["Prometheus", "Standard Logs", "Manual check", "Basic Alerts"], correctAnswer: 0, explanation: "Prometheus is an industry standard." },
-      { question: `Key benefit of modular ${topic}?`, options: ["Debugging", "Execution speed", "File size", "Less code"], correctAnswer: 0, explanation: "Modularity improves maintainability." }
+      { question: `Key benefit of modular ${topic}?`, options: ["Debugging", "Execution speed", "File size", "Less code"], correctAnswer: 0, explanation: "Modularity improves maintainability." },
+      { question: `In ${level} level ${topic}, how do we handle concurrency?`, options: ["Locking", "Queueing", "Isolated instances", "Depends on platform"], correctAnswer: 2, explanation: "Isolation allows scale." },
+      { question: `Best practice for ${topic} versioning?`, options: ["Semantic versioning", "Sequential", "Random", "Date-based"], correctAnswer: 0, explanation: "SemVer is the industry standard." },
+      { question: `Primary risk of not updating ${topic} dependencies?`, options: ["Security flaws", "Minor bugs", "Slow speed", "Style issues"], correctAnswer: 0, explanation: "Outdated packages are major security risks." }
     ];
+    // Shuffle and take 5
     return pool.sort(() => 0.5 - Math.random()).slice(0, 5);
   }
 };

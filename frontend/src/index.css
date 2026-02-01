@@ -1,15 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #6366f1;
+  --color-secondary: #a855f7;
+  --color-accent: #f472b6;
+  --color-background: #f8fafc;
+  --color-foreground: #1e293b;
+  --color-muted: #64748b;
+}
 
 @layer base {
   body {
-    @apply font-sans bg-gray-50;
-    color: #0f282f;
+    @apply font-sans antialiased text-foreground bg-background;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/30 backdrop-blur-lg border border-white/20;
+    @apply bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl shadow-indigo-500/5;
+  }
+
+  .glass-dark {
+    @apply bg-slate-900/40 backdrop-blur-xl border border-slate-700/40 shadow-2xl;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent;
+  }
+
+  .bg-gradient-mesh {
+    background-color: #f8fafc;
+    background-image:
+      radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+      radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
   }
 }
