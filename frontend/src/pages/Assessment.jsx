@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { Loader2 } from 'lucide-react';
 
 const Assessment = () => {
@@ -26,14 +26,7 @@ const Assessment = () => {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token'); // Assuming token is stored here
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            };
-
-            const response = await axios.post('http://localhost:3000/api/assessment/submit', formData, config);
+            const response = await api.post('/api/assessment/submit', formData);
 
             if (response.data) {
                 // success('Assessment submitted successfully!');
