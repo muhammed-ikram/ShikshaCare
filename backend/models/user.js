@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(`mongodb://127.0.0.1:27017/ShikshaCare`);
+
 
 const userSchema = mongoose.Schema({
     username: String,
-    email: String,
+    email: { type: String, unique: true },
     password: String,
+    authProvider: {
+        type: String,
+        default: 'local'
+    },
+    googleId: String,
     role: {
         type: String,
         enum: ['user', 'admin'],

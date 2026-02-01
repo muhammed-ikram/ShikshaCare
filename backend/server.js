@@ -4,6 +4,10 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ShikshaCare")
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.error("MongoDB Connection Error:", err));
 const passport = require("passport");
 require("./config/passport");
 const authRoutes = require('./routes/authRoutes');

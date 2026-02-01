@@ -175,39 +175,39 @@ const Home = () => {
                             <QuizMasteryChart quizStats={quizStats} />
                         </div>
                     </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
                 </motion.div>
->>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
 
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 col-span-1 md:col-span-2">
-                        <div className="flex justify-between items-center">
-                            <h2 className="text-xl font-semibold text-gray-800">Mental Health Module</h2>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => navigate("/progress")}
-                                    className="text-sm bg-indigo-50 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-100 font-medium transition-colors"
-                                >
-                                    View Analytics
-                                </button>
-                                <button
-                                    onClick={() => navigate("/assess")}
-                                    className="text-sm bg-rose-50 text-rose-600 px-4 py-2 rounded-lg hover:bg-rose-100 font-medium transition-colors"
-                                >
-                                    New Assessment
-                                </button>
-                            </div>
+                {/* Mental Health Module */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="lg:col-span-3 p-8 rounded-[2rem] glass flex flex-col md:flex-row items-center justify-between gap-6"
+                >
+                    <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-600">
+                            <Activity size={28} />
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-black text-slate-900">Wellness Sanctuary</h2>
+                            <p className="text-slate-500 font-medium">Monitoring your cognitive & emotional health</p>
                         </div>
                     </div>
-                </div>
-
-<<<<<<< HEAD
-=======
+                    <div className="flex gap-4">
+                        <button
+                            onClick={() => navigate("/progress")}
+                            className="bg-indigo-50 text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-100 transition-all flex items-center gap-2"
+                        >
+                            View Analytics
+                        </button>
+                        <button
+                            onClick={() => navigate("/assess")}
+                            className="bg-rose-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-rose-700 transition-all shadow-lg shadow-rose-200"
+                        >
+                            New Assessment
+                        </button>
+                    </div>
                 </motion.div>
->>>>>>> animations
-=======
->>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
             </div>
         </div>
     );

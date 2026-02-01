@@ -14,16 +14,10 @@ Guidelines:
 2.  **Calming Techniques**: Suggest simple, actionable calming exercises if the user seems stressed or anxious (e.g., box breathing, 5-4-3-2-1 technique).
 3.  **Positive Reinforcement**: Remind the user of their strengths.
 4.  **Tone**: Warm, non-judgmental, soothing, and professional.
-<<<<<<< HEAD
-<<<<<<< HEAD
 5.  **Crisis Intervention**: If the user indicates severe distress, self-harm, or hopelessness, DONT be generic. Urge them to seek professional help immediately. 
     *   "I'm really concerned about you. Please reach out to a professional or a trusted adult immediately."
     *   Include generic helpline suggestions like "You can call 988 or your local emergency number."
 6.  **Structure**: Keep responses concise and easy to read.
-=======
->>>>>>> animations
-=======
->>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
 `;
 
 exports.analyzeMood = async (req, res) => {
@@ -31,9 +25,6 @@ exports.analyzeMood = async (req, res) => {
         const { message } = req.body;
         if (!message) return res.status(400).json({ error: "Message is required" });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         try {
             console.log("Chatbot: Attempting OpenAI (Mood)...");
             const response = await openai.chat.completions.create({
@@ -42,38 +33,6 @@ exports.analyzeMood = async (req, res) => {
                     { role: "system", content: mentalHealthPrompt },
                     { role: "user", content: message }
                 ]
-
->>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
-        if (!message) {
-            return res.status(400).json({ error: "Message is required" });
-        }
-
-
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const result = await model.generateContent(mentalHealthPrompt + "\nUser Input: " + message);
-        const response = await result.response;
-        const text = response.text();
-
-        res.json({ reply: text });
-    } catch (error) {
-        console.error("Error with Gemini API:", error);
-
-        if (error.status === 429 || error.message?.includes('429')) {
-            return res.status(429).json({
-                error: "I'm receiving too many messages right now. Please wait a moment and try again."
-<<<<<<< HEAD
-=======
-        try {
-            console.log("Chatbot: Attempting OpenAI (Mood)...");
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: [
-                    { role: "system", content: mentalHealthPrompt },
-                    { role: "user", content: message }
-                ]
->>>>>>> animations
-=======
->>>>>>> f3ea8fcabc04190cd446fe9d336c486de78e57b6
             });
             res.json({ reply: response.choices[0].message.content });
         } catch (oaError) {
